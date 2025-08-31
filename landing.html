@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phluowise - Earn by Onboarding Water Companies</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://submit-form.com; script-src 'self' https://cdn.tailwindcss.com https://cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' https://cdnjs.cloudflare.com https://unpkg.com 'unsafe-inline'; font-src 'self' https://cdnjs.cloudflare.com https://unpkg.com data:; img-src 'self' data: https:;">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #000000 0%, #1a1a2e 100%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #3b82f6 0%, #6366f1 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.4);
+        }
+        .feature-icon {
+            background: rgba(59, 130, 246, 0.1);
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+            background: rgba(59, 130, 246, 0.2);
+        }
+    </style>
+</head>
+<body class="gradient-bg text-white h-full flex flex-col">
+    <!-- Navbar -->
+    <nav class="px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <img src="images/phluowise_icon.png" alt="Phluowise Icon" class="w-16 h-16">
+                <img src="images/Phluowise_Text_Logo.png" alt="Phluowise" class="h-12">
+            </div>
+            <a href="signup.html" class="btn-primary px-6 py-2 rounded-full font-medium">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center px-6">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <!-- Left Column -->
+            <div class="space-y-8">
+                <h1 class="text-5xl font-bold leading-tight">
+                    Earn by Onboarding <span class="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Water Companies</span>
+                </h1>
+                <p class="text-xl text-gray-300">
+                    Join Phluowise's network of marketers and get paid for bringing water companies onto our logistics and inventory management platform.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <a href="signup.html" class="btn-primary px-8 py-4 rounded-full font-medium text-center text-lg">
+                        Join as Marketer
+                    </a>
+                    <a href="#" class="px-8 py-4 rounded-full border border-gray-700 hover:bg-gray-800/50 transition-colors text-center">
+                        Learn More <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                <div class="pt-4 flex items-center space-x-2 text-sm text-gray-400">
+                    <div class="flex -space-x-2">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User 1" class="w-10 h-10 rounded-full border-2 border-gray-800 object-cover">
+                        <img src="https://randomuser.me/api/portraits/men/33.jpg" alt="User 2" class="w-10 h-10 rounded-full border-2 border-gray-800 object-cover">
+                        <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="User 3" class="w-10 h-10 rounded-full border-2 border-gray-800 object-cover">
+                    </div>
+                    <span>Join 500+ marketers already earning with us</span>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="relative">
+                <div class="glass-card rounded-3xl p-1">
+                    <div class="bg-gray-900 rounded-2xl overflow-hidden">
+                        <div class="p-4 bg-gray-800/50 flex items-center space-x-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <div class="flex-1 text-center text-sm text-gray-400">phluowise.com/dashboard</div>
+                        </div>
+                        <div class="bg-gray-800 p-12 flex items-center justify-center">
+                            <div class="text-center">
+                                <i class="fas fa-chart-network text-6xl text-blue-400 mb-4"></i>
+                                <p class="text-gray-400">Dashboard Preview</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Floating Feature Cards -->
+                <div class="absolute -left-10 -bottom-10 glass-card p-4 rounded-xl w-56">
+                    <div class="flex items-center space-x-3">
+                        <div class="feature-icon p-2 rounded-lg">
+                            <i class="fas fa-hand-holding-usd text-green-400"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold">Earn Commissions</div>
+                            <div class="text-xs text-gray-400">Get paid per successful onboarding</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="absolute -right-10 -top-10 glass-card p-4 rounded-xl w-56">
+                    <div class="flex items-center space-x-3">
+                        <div class="feature-icon p-2 rounded-lg">
+                            <i class="fas fa-users text-cyan-400"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold">Team Support</div>
+                            <div class="text-xs text-gray-400">Join or create your marketing team</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Contact FAB -->
+    <button id="contactFab" 
+            class="fixed bottom-6 right-6 w-14 h-14 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg transition-all hover:shadow-xl z-50"
+            aria-label="Contact us"
+            title="Contact us">
+        <i class='bx bx-message-dots text-2xl' aria-hidden="true"></i>
+    </button>
+
+    <!-- Contact Popup -->
+    <div id="contactPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-900 rounded-2xl p-8 w-full max-w-md relative">
+            <button id="closePopup" 
+                    class="absolute top-4 right-4 text-gray-400 hover:text-white"
+                    aria-label="Close contact form"
+                    title="Close">
+                <i class='bx bx-x text-2xl' aria-hidden="true"></i>
+            </button>
+            <h2 class="text-2xl font-bold mb-6">Contact Us</h2>
+            <form id="contactForm" class="space-y-4">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Name</label>
+                    <input type="text" id="name" name="name" required 
+                           class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           placeholder="Your name">
+                </div>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email</label>
+                    <input type="email" id="email" name="email" required
+                           class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           placeholder="your@email.com">
+                </div>
+                <div>
+                    <label for="message" class="block text-sm font-medium text-gray-300 mb-1">Message</label>
+                    <textarea id="message" name="message" required rows="4"
+                             class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                             placeholder="Your message"></textarea>
+                </div>
+                <button type="submit" 
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors">
+                    Send Message
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="px-6 py-6 border-t border-gray-800 relative z-10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                <img src="images/phluowise_icon.png" alt="Phluowise Icon" class="w-6 h-6">
+                <span class="font-bold">Phluowise Ltd</span>
+            </div>
+            <div class="flex flex-wrap justify-center gap-4 text-sm text-gray-400">
+                <a href="#" class="hover:text-white transition-colors">How It Works</a>
+                <a href="#" class="hover:text-white transition-colors">Earnings</a>
+                <a href="#" class="hover:text-white transition-colors">Support</a>
+                <a href="#" id="footerContactBtn" class="hover:text-white transition-colors">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Contact Form Handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactFab = document.getElementById('contactFab');
+            const contactPopup = document.getElementById('contactPopup');
+            const closePopup = document.getElementById('closePopup');
+            const contactForm = document.getElementById('contactForm');
+            const footerContactBtn = document.getElementById('footerContactBtn');
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+
+            // Show popup
+            function showPopup() {
+                contactPopup.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+
+            // Hide popup
+            function hidePopup() {
+                contactPopup.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+
+            // Event listeners
+            contactFab.addEventListener('click', showPopup);
+            footerContactBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPopup();
+            });
+            closePopup.addEventListener('click', hidePopup);
+
+            // Close when clicking outside the popup
+            contactPopup.addEventListener('click', (e) => {
+                if (e.target === contactPopup) {
+                    hidePopup();
+                }
+            });
+
+            // Form submission
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Disable submit button and show loading state
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                
+                try {
+                    // Get form data
+                    const formData = new FormData(contactForm);
+                    const formObject = Object.fromEntries(formData.entries());
+                    
+                    // Add honeypot field (recommended by Formspark)
+                    formObject['_gotcha'] = '';
+                    
+                    // Submit to Formspark with error handling
+                    let response;
+                    try {
+                        response = await fetch('https://submit-form.com/pCITcVG9l', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify(formObject)
+                        });
+
+                        if (!response.ok) {
+                            const errorData = await response.text();
+                            console.error('Form submission failed with status:', response.status, 'Response:', errorData);
+                            throw new Error('Form submission failed. Please try again later.');
+                        }
+                    } catch (error) {
+                        console.error('Network error during form submission:', error);
+                        throw new Error('Unable to connect to the server. Please check your connection and try again.');
+                    }
+
+                    // Show success message
+                    await Swal.fire({
+                        icon: 'success',
+                        title: 'Message Sent!',
+                        html: 'Thank you for contacting us!<br>We\'ll get back to you soon.',
+                        confirmButtonColor: '#3b82f6',
+                        confirmButtonText: 'Close',
+                        customClass: {
+                            popup: 'bg-gray-900 border border-gray-700',
+                            title: 'text-white',
+                            htmlContainer: 'text-gray-300',
+                            confirmButton: 'bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg'
+                        }
+                    });
+                    
+                    // Reset form and close popup
+                    contactForm.reset();
+                    hidePopup();
+                    
+                } catch (error) {
+                    console.error('Form submission error:', error);
+                    
+                    // Show error message with retry option
+                    const result = await Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: 'Something went wrong while sending your message.<br>Would you like to try again?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, try again',
+                        cancelButtonText: 'Close',
+                        confirmButtonColor: '#3b82f6',
+                        cancelButtonColor: '#6b7280',
+                        customClass: {
+                            popup: 'bg-gray-900 border border-gray-700',
+                            title: 'text-white',
+                            htmlContainer: 'text-gray-300',
+                            confirmButton: 'bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg',
+                            cancelButton: 'bg-gray-600 hover:bg-gray-700 px-6 py-2 rounded-lg mr-2'
+                        }
+                    });
+                    
+                    if (result.isDismissed) {
+                        hidePopup();
+                    }
+                } finally {
+                    // Re-enable submit button and restore original text
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                }
+            });
+            
+            // Add title attributes for accessibility
+            contactFab.setAttribute('title', 'Contact Us');
+            closePopup.setAttribute('title', 'Close');
+        });
+    </script>
+</body>
+</html>

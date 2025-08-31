@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5G6C5PLV');</script>
+<!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Phluowise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #000000;
+            color: #e5e7eb;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.05);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            border-radius: 1rem;
+            width: 100%;
+            max-width: 500px;
+            padding: 2.5rem;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #374151;
+            border-radius: 0.5rem;
+            background-color: #1a1a1a;
+            color: #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            border-color: #3b74ff;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 116, 255, 0.2);
+        }
+        .password-strength {
+            height: 4px;
+            background-color: #374151;
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+    </style>
+</head>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5G6C5PLV"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<body class="bg-black text-gray-200 min-h-screen flex items-center justify-center p-4">
+    <div class="form-container">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-[#3b74ff] mb-2">Create an Account</h1>
+            <p class="text-gray-400">Join Phluowise and start your journey</p>
+        </div>
+
+        <form id="signupForm" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="firstName" class="block text-sm font-medium text-gray-300 mb-1">First Name</label>
+                    <input type="text" id="firstName" name="firstName" class="form-input" placeholder="John" required>
+                    <p id="firstNameError" class="text-red-400 text-sm mt-1 hidden"></p>
+                </div>
+                <div>
+                    <label for="lastName" class="block text-sm font-medium text-gray-300 mb-1">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Doe" required>
+                    <p id="lastNameError" class="text-red-400 text-sm mt-1 hidden"></p>
+                </div>
+            </div>
+
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email Address</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="you@example.com" required>
+                <p id="emailError" class="text-red-400 text-sm mt-1 hidden"></p>
+            </div>
+
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-300 mb-1">Password</label>
+                <div class="relative">
+                    <input type="password" id="password" name="password" class="form-input pr-10" placeholder="Create a password" required>
+                    <button 
+                        type="button" 
+                        class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-gray-200 focus:outline-none" 
+                        id="togglePassword"
+                        aria-label="Toggle password visibility"
+                        title="Toggle password visibility"
+                    >
+                        <i class="far fa-eye-slash" aria-hidden="true"></i>
+                        <span class="sr-only">Toggle password visibility</span>
+                    </button>
+                </div>
+                <div class="password-strength mt-2">
+                    <div class="password-strength-bar" id="passwordStrengthBar"></div>
+                </div>
+                <p id="passwordError" class="text-red-400 text-sm mt-1 hidden"></p>
+                <div class="text-xs text-gray-400 mt-1">
+                    <p>Password must contain at least:</p>
+                    <ul class="list-disc list-inside mt-1">
+                        <li id="lengthReq" class="text-gray-500">8 characters</li>
+                        <li id="uppercaseReq" class="text-gray-500">1 uppercase letter</li>
+                        <li id="numberReq" class="text-gray-500">1 number</li>
+                        <li id="specialReq" class="text-gray-500">1 special character</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <label for="confirmPassword" class="block text-sm font-medium text-gray-300 mb-1">Confirm Password</label>
+                <div class="relative">
+                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-input pr-10" placeholder="Confirm your password" required>
+                    <button 
+                        type="button" 
+                        class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-gray-200 focus:outline-none" 
+                        id="toggleConfirmPassword"
+                        aria-label="Toggle confirm password visibility"
+                        title="Toggle confirm password visibility"
+                    >
+                        <i class="far fa-eye-slash" aria-hidden="true"></i>
+                        <span class="sr-only">Toggle confirm password visibility</span>
+                    </button>
+                </div>
+                <p id="confirmPasswordError" class="text-red-400 text-sm mt-1 hidden"></p>
+            </div>
+
+            <div class="flex items-start">
+                <div class="flex items-center h-5">
+                    <input id="terms" name="terms" type="checkbox" class="h-4 w-4 rounded border-gray-600 bg-gray-700 focus:ring-[#3b74ff]" required>
+                </div>
+                <div class="ml-3 text-sm">
+                    <label for="terms" class="text-gray-300">I agree to the <a href="#" class="text-[#3b74ff] hover:underline">Terms of Service</a> and <a href="#" class="text-[#3b74ff] hover:underline">Privacy Policy</a></label>
+                    <p id="termsError" class="text-red-400 text-sm mt-1 hidden">You must agree to the terms and conditions</p>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-[#3b74ff] hover:bg-blue-600 text-white font-medium py-2.5 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900">
+                Create Account
+            </button>
+
+            <div class="text-center text-sm text-gray-400 mt-4">
+                Already have an account? <a href="signin.html" class="text-[#3b74ff] hover:underline">Sign in</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('signupForm');
+            const firstNameInput = document.getElementById('firstName');
+            const lastNameInput = document.getElementById('lastName');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const termsCheckbox = document.getElementById('terms');
+            const togglePasswordBtns = document.querySelectorAll('[id^="toggle"]');
+            const passwordStrengthBar = document.getElementById('passwordStrengthBar');
+            
+            // Password requirements elements
+            const lengthReq = document.getElementById('lengthReq');
+            const uppercaseReq = document.getElementById('uppercaseReq');
+            const numberReq = document.getElementById('numberReq');
+            const specialReq = document.getElementById('specialReq');
+
+            // Toggle password visibility
+            togglePasswordBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const input = this.parentElement.querySelector('input');
+                    const icon = this.querySelector('i');
+                    const isPassword = input.type === 'password';
+                    
+                    input.type = isPassword ? 'text' : 'password';
+                    icon.className = isPassword ? 'far fa-eye' : 'far fa-eye-slash';
+                    this.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+                });
+            });
+
+            // Password strength indicator
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+                const requirements = {
+                    length: password.length >= 8,
+                    uppercase: /[A-Z]/.test(password),
+                    number: /[0-9]/.test(password),
+                    special: /[^A-Za-z0-9]/.test(password)
+                };
+
+                // Update requirements UI
+                lengthReq.className = requirements.length ? 'text-green-400' : 'text-gray-500';
+                uppercaseReq.className = requirements.uppercase ? 'text-green-400' : 'text-gray-500';
+                numberReq.className = requirements.number ? 'text-green-400' : 'text-gray-500';
+                specialReq.className = requirements.special ? 'text-green-400' : 'text-gray-500';
+
+                // Calculate strength
+                strength += requirements.length ? 25 : 0;
+                strength += requirements.uppercase ? 25 : 0;
+                strength += requirements.number ? 25 : 0;
+                strength += requirements.special ? 25 : 0;
+
+                // Update strength bar
+                passwordStrengthBar.style.width = `${strength}%`;
+                if (strength < 50) {
+                    passwordStrengthBar.style.backgroundColor = '#ef4444'; // red
+                } else if (strength < 75) {
+                    passwordStrengthBar.style.backgroundColor = '#f59e0b'; // amber
+                } else {
+                    passwordStrengthBar.style.backgroundColor = '#10b981'; // green
+                }
+            });
+
+            // Form validation
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(String(email).toLowerCase());
+            }
+
+            function validatePassword(password) {
+                const requirements = {
+                    length: password.length >= 8,
+                    uppercase: /[A-Z]/.test(password),
+                    number: /[0-9]/.test(password),
+                    special: /[^A-Za-z0-9]/.test(password)
+                };
+                return Object.values(requirements).every(Boolean);
+            }
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const firstName = firstNameInput.value.trim();
+                const lastName = lastNameInput.value.trim();
+                const email = emailInput.value.trim();
+                const password = passwordInput.value;
+                const confirmPassword = confirmPasswordInput.value;
+                let isValid = true;
+
+                // Reset errors
+                document.querySelectorAll('[id$="Error"]').forEach(el => el.classList.add('hidden'));
+                [firstNameInput, lastNameInput, emailInput, passwordInput, confirmPasswordInput].forEach(
+                    input => input.classList.remove('border-red-500')
+                );
+
+                // Validate first name
+                if (!firstName) {
+                    document.getElementById('firstNameError').textContent = 'First name is required';
+                    document.getElementById('firstNameError').classList.remove('hidden');
+                    firstNameInput.classList.add('border-red-500');
+                    isValid = false;
+                }
+
+                // Validate last name
+                if (!lastName) {
+                    document.getElementById('lastNameError').textContent = 'Last name is required';
+                    document.getElementById('lastNameError').classList.remove('hidden');
+                    lastNameInput.classList.add('border-red-500');
+                    isValid = false;
+                }
+
+                // Validate email
+                if (!email) {
+                    document.getElementById('emailError').textContent = 'Email is required';
+                    document.getElementById('emailError').classList.remove('hidden');
+                    emailInput.classList.add('border-red-500');
+                    isValid = false;
+                } else if (!validateEmail(email)) {
+                    document.getElementById('emailError').textContent = 'Please enter a valid email address';
+                    document.getElementById('emailError').classList.remove('hidden');
+                    emailInput.classList.add('border-red-500');
+                    isValid = false;
+                }
+
+                // Validate password
+                if (!password) {
+                    document.getElementById('passwordError').textContent = 'Password is required';
+                    document.getElementById('passwordError').classList.remove('hidden');
+                    passwordInput.classList.add('border-red-500');
+                    isValid = false;
+                } else if (!validatePassword(password)) {
+                    document.getElementById('passwordError').textContent = 'Password does not meet requirements';
+                    document.getElementById('passwordError').classList.remove('hidden');
+                    passwordInput.classList.add('border-red-500');
+                    isValid = false;
+                }
+
+                // Validate confirm password
+                if (password !== confirmPassword) {
+                    document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
+                    document.getElementById('confirmPasswordError').classList.remove('hidden');
+                    confirmPasswordInput.classList.add('border-red-500');
+                    isValid = false;
+                }
+
+                // Validate terms
+                if (!termsCheckbox.checked) {
+                    document.getElementById('termsError').classList.remove('hidden');
+                    termsCheckbox.classList.add('border-red-500');
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    // Simulate API call
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Creating account...';
+
+                    // Simulate API call delay
+                    setTimeout(() => {
+                        // Redirect to onboarding page after successful signup
+                        // In a real app, you would store the user data in localStorage/session
+                        // and then redirect to onboarding
+                        const userData = {
+                            firstName: firstName,
+                            lastName: lastName,
+                            email: email
+                        };
+                        
+                        // Store user data temporarily for onboarding
+                        sessionStorage.setItem('newUserData', JSON.stringify(userData));
+                        
+                        // Redirect to onboarding
+                        window.location.href = 'onboarding.html';
+                        
+                        // Reset button state (in case of error)
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalText;
+                    }, 1500);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

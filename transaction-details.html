@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5G6C5PLV');</script>
+<!-- End Google Tag Manager -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transaction Details - Phluowise</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body { font-family: "Inter", sans-serif; background-color: #000; color: #e5e7eb; }
+    .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .sidebar { width: 16rem; min-height: 100vh; }
+    .main-content { margin-left: 16rem; }
+    @media (max-width: 768px) {
+      .sidebar { margin-left: -16rem; }
+      .sidebar.active { margin-left: 0; }
+      .main-content { margin-left: 0; }
+      .main-content.active { margin-left: 16rem; }
+    }
+  </style>
+</head>
+<body class="bg-black">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5G6C5PLV"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <!-- Mobile Header -->
+  <header class="md:hidden flex items-center justify-between p-4 bg-gray-900 border-b border-gray-800">
+    <a href="index.html" class="text-gray-400 hover:text-white">
+      <i class="fas fa-arrow-left text-xl"></i>
+    </a>
+    <h1 class="text-xl font-bold">Transaction #TRX-2847</h1>
+    <div class="w-8"></div>
+  </header>
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="sidebar fixed top-0 left-0 bg-gray-900 text-white p-4 z-40">
+    <div class="flex items-center justify-between mb-8 pt-4">
+      <div class="flex items-center space-x-2">
+        <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+          <i class="fas fa-water text-white"></i>
+        </div>
+        <span class="text-xl font-bold">Phluowise</span>
+      </div>
+      <button id="closeSidebar" class="md:hidden text-gray-400 hover:text-white">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <nav class="space-y-2">
+      <a href="index.html" class="flex items-center space-x-3 p-2 rounded-lg text-gray-300 hover:bg-gray-800">
+        <i class="fas fa-home w-5"></i><span>Dashboard</span>
+      </a>
+      <a href="leaderboard.html" class="flex items-center space-x-3 p-2 rounded-lg text-gray-300 hover:bg-gray-800">
+        <i class="fas fa-trophy w-5"></i><span>Leaderboard</span>
+      </a>
+      <a href="#" class="flex items-center space-x-3 p-2 rounded-lg bg-blue-900/30 text-blue-400">
+        <i class="fas fa-exchange-alt w-5"></i><span>Transactions</span>
+      </a>
+      <a href="profile.html" class="flex items-center space-x-3 p-2 rounded-lg text-gray-300 hover:bg-gray-800">
+        <i class="fas fa-user w-5"></i><span>Profile</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main id="mainContent" class="main-content min-h-screen p-4 md:p-6">
+    <div class="max-w-4xl mx-auto">
+      <!-- Back Button -->
+      <div class="mb-6">
+        <a href="index.html" class="inline-flex items-center text-blue-400 hover:text-blue-300">
+          <i class="fas fa-arrow-left mr-2"></i>
+          <span>Back to Dashboard</span>
+        </a>
+      </div>
+
+      <!-- Transaction Header -->
+      <div class="glass p-6 rounded-xl mb-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 class="text-2xl font-bold mb-1">Transaction #TRX-2847</h1>
+            <div class="flex items-center">
+              <span class="px-3 py-1 text-sm font-medium rounded-full bg-green-900/30 text-green-400">
+                Completed
+              </span>
+              <span class="ml-3 text-sm text-gray-400">August 28, 2025 at 2:45 PM</span>
+            </div>
+          </div>
+          <div class="mt-4 md:mt-0 text-right">
+            <div class="text-3xl font-bold text-green-400">$1,200.00</div>
+            <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5G6C5PLV"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+            <div class="text-sm text-gray-400">Withdrawal</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transaction Details -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Sender/Recipient -->
+        <div class="glass p-6 rounded-xl">
+          <h2 class="text-lg font-semibold mb-4">Transaction Details</h2>
+          <div class="space-y-4">
+            <div>
+              <p class="text-sm text-gray-400">From</p>
+              <p class="font-medium">Your Phluowise Account</p>
+              <p class="text-sm text-gray-400">Balance: $3,450.00</p>
+            </div>
+            <div class="flex justify-center">
+              <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
+                <i class="fas fa-arrow-down text-white"></i>
+              </div>
+            </div>
+            <div>
+              <p class="text-sm text-gray-400">To</p>
+              <p class="font-medium">Bank Transfer</p>
+              <p class="text-sm">•••• 4567 (Chase Bank)</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Details -->
+        <div class="glass p-6 rounded-xl">
+          <h2 class="text-lg font-semibold mb-4">Payment Information</h2>
+          <div class="space-y-3">
+            <div class="flex justify-between">
+              <span class="text-gray-400">Transaction ID</span>
+              <span>TRX-2847-2025-08-28</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-400">Reference</span>
+              <span>WDL-2025-08-2847</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-400">Processing Fee</span>
+              <span class="text-red-400">-$5.00</span>
+            </div>
+            <div class="border-t border-gray-700 my-2"></div>
+            <div class="flex justify-between font-medium">
+              <span>Total Amount</span>
+              <span class="text-green-400">$1,200.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="glass p-6 rounded-xl mb-6">
+        <h2 class="text-lg font-semibold mb-4">Transaction Timeline</h2>
+        <div class="space-y-4">
+          <div class="flex items-start">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center mt-1">
+              <i class="fas fa-check text-white text-xs"></i>
+            </div>
+            <div class="ml-4">
+              <p class="font-medium">Withdrawal Requested</p>
+              <p class="text-sm text-gray-400">August 28, 2025 at 2:45 PM</p>
+              <p class="text-sm mt-1">Your withdrawal request has been received and is being processed.</p>
+            </div>
+          </div>
+          <div class="flex items-start">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center mt-1">
+              <i class="fas fa-check text-white text-xs"></i>
+            </div>
+            <div class="ml-4">
+              <p class="font-medium">Processing</p>
+              <p class="text-sm text-gray-400">August 28, 2025 at 3:15 PM</p>
+              <p class="text-sm mt-1">Your withdrawal is being processed by our finance team.</p>
+            </div>
+          </div>
+          <div class="flex items-start">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center mt-1">
+              <i class="fas fa-check text-white text-xs"></i>
+            </div>
+            <div class="ml-4">
+              <p class="font-medium">Completed</p>
+              <p class="text-sm text-gray-400">August 29, 2025 at 10:30 AM</p>
+              <p class="text-sm mt-1">$1,200.00 has been transferred to your bank account.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="glass p-6 rounded-xl">
+        <div class="flex flex-col sm:flex-row justify-between items-center">
+          <div class="mb-4 sm:mb-0">
+            <p class="text-sm text-gray-400">Need help with this transaction?</p>
+            <p>Contact our support team for assistance</p>
+          </div>
+          <div class="space-x-3">
+            <button class="px-4 py-2 border border-gray-600 rounded-lg text-gray-300 hover:bg-gray-800/50">
+              <i class="fas fa-download mr-2"></i>Download Receipt
+            </button>
+            <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
+              <i class="fas fa-headset mr-2"></i>Contact Support
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
+    const closeSidebar = document.getElementById('closeSidebar');
+
+    menuBtn?.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      mainContent.classList.toggle('active');
+    });
+
+    closeSidebar?.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      mainContent.classList.remove('active');
+    });
+  </script>
+</body>
+</html>

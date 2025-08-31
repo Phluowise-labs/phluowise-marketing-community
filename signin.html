@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5G6C5PLV');</script>
+<!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Phluowise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #000000;
+            color: #e5e7eb;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.05);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            border-radius: 1rem;
+            width: 100%;
+            max-width: 400px;
+            padding: 2.5rem;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #374151;
+            border-radius: 0.5rem;
+            background-color: #1a1a1a;
+            color: #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            border-color: #3b74ff;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 116, 255, 0.2);
+        }
+    </style>
+</head>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5G6C5PLV"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<body class="bg-black text-gray-200 min-h-screen flex items-center justify-center p-4">
+    <div class="form-container">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-[#3b74ff] mb-2">Welcome Back</h1>
+            <p class="text-gray-400">Sign in to continue to Phluowise</p>
+        </div>
+
+        <form id="signinForm" class="space-y-6">
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email Address</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email" required>
+                <p id="emailError" class="text-red-400 text-sm mt-1 hidden">Please enter a valid email address</p>
+            </div>
+            
+            <div>
+                <div class="flex justify-between items-center mb-1">
+                    <label for="password" class="block text-sm font-medium text-gray-300">Password</label>
+                    <a href="forgot-password.html" class="text-sm text-[#3b74ff] hover:underline">Forgot password?</a>
+                </div>
+                <div class="relative">
+                    <input type="password" id="password" name="password" class="form-input pr-10" placeholder="Enter your password" required>
+                    <button 
+                        type="button" 
+                        class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-gray-200 focus:outline-none" 
+                        id="togglePassword" 
+                        aria-label="Toggle password visibility"
+                        title="Toggle password visibility"
+                    >
+                        <i class="far fa-eye-slash" aria-hidden="true"></i>
+                        <span class="sr-only">Toggle password visibility</span>
+                    </button>
+                </div>
+                <p id="passwordError" class="text-red-400 text-sm mt-1 hidden">Password must be at least 8 characters</p>
+            </div>
+
+            <div class="flex items-center">
+                <input id="remember" name="remember" type="checkbox" class="h-4 w-4 rounded border-gray-600 bg-gray-700 focus:ring-[#3b74ff]">
+                <label for="remember" class="ml-2 block text-sm text-gray-300">Remember me</label>
+            </div>
+
+            <button type="submit" class="w-full bg-[#3b74ff] hover:bg-blue-600 text-white font-medium py-2.5 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900">
+                Sign In
+            </button>
+
+            <div class="text-center text-sm text-gray-400 mt-4">
+                Don't have an account? <a href="signup.html" class="text-[#3b74ff] hover:underline">Sign up</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+      import { 
+        getAuth, 
+        signInWithEmailAndPassword,
+        onAuthStateChanged
+      } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        // Add your Firebase config here
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('signinForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordToggleIcon = togglePassword.querySelector('i');
+        let isPasswordVisible = false;
+
+            // Toggle password visibility
+            togglePassword.addEventListener('click', function() {
+                isPasswordVisible = !isPasswordVisible;
+                passwordInput.type = isPasswordVisible ? 'text' : 'password';
+                passwordToggleIcon.className = isPasswordVisible ? 'far fa-eye' : 'far fa-eye-slash';
+                this.setAttribute('aria-label', isPasswordVisible ? 'Hide password' : 'Show password');
+            });
+
+            // Form validation
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(String(email).toLowerCase());
+            }
+
+            emailInput.addEventListener('input', function() {
+                if (!validateEmail(this.value)) {
+                    emailError.classList.remove('hidden');
+                    this.classList.add('border-red-500');
+                } else {
+                    emailError.classList.add('hidden');
+                    this.classList.remove('border-red-500');
+                }
+            });
+
+            passwordInput.addEventListener('input', function() {
+                if (this.value.length < 8 && this.value.length > 0) {
+                    passwordError.classList.remove('hidden');
+                    this.classList.add('border-red-500');
+                } else {
+                    passwordError.classList.add('hidden');
+                    this.classList.remove('border-red-500');
+                }
+            });
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = emailInput.value.trim();
+                const password = passwordInput.value.trim();
+                let isValid = true;
+
+                // Reset errors
+                emailError.classList.add('hidden');
+                passwordError.classList.add('hidden');
+                emailInput.classList.remove('border-red-500');
+                passwordInput.classList.remove('border-red-500');
+
+                // Validate email
+                if (!email) {
+                    emailError.textContent = 'Email is required';
+                    emailError.classList.remove('hidden');
+                    emailInput.classList.add('border-red-500');
+                    isValid = false;
+                } else if (!validateEmail(email)) {
+                    emailError.textContent = 'Please enter a valid email address';
+                    emailError.classList.remove('hidden');
+                    emailInput.classList.add('border-red-500');
+                    isValid = false;
+                }
+
+                // Validate password
+                if (!password) {
+                    passwordError.textContent = 'Password is required';
+                    passwordError.classList.remove('hidden');
+                    passwordInput.classList.add('border-red-500');
+                    isValid = false;
+                } else if (password.length < 8) {
+                    passwordError.textContent = 'Password must be at least 8 characters';
+                    passwordError.classList.remove('hidden');
+                    passwordInput.classList.add('border-red-500');
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Signing in...';
+
+                    // Sign in with Firebase
+                    signInWithEmailAndPassword(auth, email, password)
+                        .then((userCredential) => {
+                            // Signed in successfully
+                            const user = userCredential.user;
+                            window.location.href = 'index.html';
+                        })
+                        .catch((error) => {
+                            // Handle errors
+                            const errorCode = error.code;
+                            let errorMessage = 'Failed to sign in. Please try again.';
+                            
+                            if (errorCode === 'auth/user-not-found' || errorCode === 'auth/wrong-password') {
+                                errorMessage = 'Invalid email or password';
+                                emailInput.classList.add('border-red-500');
+                                passwordInput.classList.add('border-red-500');
+                            } else if (errorCode === 'auth/too-many-requests') {
+                                errorMessage = 'Too many failed attempts. Please try again later.';
+                            }
+                            
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Sign In Failed',
+                                text: errorMessage,
+                                confirmButtonColor: '#3b74ff',
+                            });
+                        })
+                        .finally(() => {
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = originalText;
+                        });
+                }
+            });
+        });
+
+        // Check if user is already signed in
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, redirect to dashboard
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>

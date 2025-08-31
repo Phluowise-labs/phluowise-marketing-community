@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5G6C5PLV');</script>
+<!-- End Google Tag Manager -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phluowise - Documentation</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    .glass {
+      background: rgba(31, 41, 55, 0.7);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .feature-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+  </style>
+</head>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5G6C5PLV"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<body class="bg-gray-900 text-gray-100 min-h-screen">
+  <!-- Sidebar Navigation -->
+  <div class="fixed top-0 left-0 h-full w-64 bg-gray-900 border-r border-gray-800 p-6 flex flex-col z-50">
+    <div class="flex items-center justify-between w-full mb-10">
+      <span class="text-2xl font-bold text-blue-500">Phluowise</span>
+    </div>
+    
+    <nav class="flex-1 space-y-2">
+      <a href="index.html" class="flex items-center space-x-3 text-gray-300 hover:text-blue-400 p-2 rounded-lg transition-colors">
+        <i class="fas fa-arrow-left w-6"></i>
+        <span>Back to Dashboard</span>
+      </a>
+      
+      <div class="pt-4 border-t border-gray-800">
+        <h3 class="text-xs uppercase font-semibold text-gray-500 px-2 mb-3">Documentation</h3>
+        <a href="#getting-started" class="block py-2 px-2 rounded-lg hover:bg-gray-800 text-blue-400">Getting Started</a>
+        <a href="#onboarding" class="block py-2 px-2 rounded-lg hover:bg-gray-800 text-gray-300">Onboarding</a>
+        <a href="#dashboard" class="block py-2 px-2 rounded-lg hover:bg-gray-800 text-gray-300">Dashboard</a>
+        <a href="#team-management" class="block py-2 px-2 rounded-lg hover:bg-gray-800 text-gray-300">Team Management</a>
+        <a href="#transactions" class="block py-2 px-2 rounded-lg hover:bg-gray-800 text-gray-300">Transactions</a>
+        <a href="#leaderboard" class="block py-2 px-2 rounded-lg hover:bg-gray-800 text-gray-300">Leaderboard</a>
+        <a href="#profile" class="block py-2 px-2 rounded-lg hover:bg-gray-800 text-gray-300">Profile</a>
+      </div>
+    </nav>
+    
+    <div class="pt-4 mt-auto border-t border-gray-800">
+      <p class="text-xs text-gray-500">© 2024 Phluowise. All rights reserved.</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="pl-64">
+    <div class="max-w-5xl mx-auto p-8">
+      <header class="mb-12">
+        <h1 class="text-4xl font-bold mb-2">Phluowise Documentation</h1>
+        <p class="text-gray-400">Learn how to use Phluowise to manage your team, track performance, and maximize your earnings.</p>
+      </header>
+
+      <!-- Getting Started -->
+      <section id="getting-started" class="mb-16">
+        <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-800">Getting Started</h2>
+        <p class="text-gray-400 mb-6">Welcome to Phluowise! Follow these simple steps to get started with our platform and make the most out of your experience.</p>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="feature-card glass p-6 rounded-xl">
+            <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
+              <i class="fas fa-user-plus text-blue-400 text-xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Create an Account</h3>
+            <p class="text-gray-400 mb-4">Sign up with your email and create a secure password to get started with Phluowise.</p>
+            <img src="https://via.placeholder.com/600x400/1f2937/9ca3af?text=Sign+Up+Screen" alt="Sign Up" class="rounded-lg w-full h-auto border border-gray-700">
+          </div>
+          
+          <div class="feature-card glass p-6 rounded-xl">
+            <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
+              <i class="fas fa-users text-green-400 text-xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Set Up Your Team</h3>
+            <p class="text-gray-400 mb-4">Add team members, assign roles, and set up your payment distribution preferences.</p>
+            <img src="https://via.placeholder.com/600x400/1f2937/9ca3af?text=Team+Setup" alt="Team Setup" class="rounded-lg w-full h-auto border border-gray-700">
+          </div>
+        </div>
+      </section>
+
+      <!-- Dashboard -->
+      <section id="dashboard" class="mb-16">
+        <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-800">Dashboard Overview</h2>
+        <div class="glass p-6 rounded-xl mb-6">
+          <div class="flex items-center mb-6">
+            <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+            <h3 class="text-xl font-semibold">Your Dashboard</h3>
+          </div>
+          <p class="text-gray-400 mb-6">The dashboard provides an overview of your performance, team statistics, and recent activities at a glance.</p>
+          <img src="https://via.placeholder.com/1200x600/1f2937/9ca3af?text=Dashboard+Overview" alt="Dashboard" class="rounded-lg w-full h-auto border border-gray-700 mb-6">
+          
+          <div class="grid md:grid-cols-3 gap-6 mt-8">
+            <div>
+              <h4 class="font-semibold mb-2">Key Metrics</h4>
+              <ul class="space-y-2 text-gray-400">
+                <li class="flex items-center"><div class="w-2 h-2 bg-blue-500 rounded-full mr-2"></div> Total Points</li>
+                <li class="flex items-center"><div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div> Team Members</li>
+                <li class="flex items-center"><div class="w-2 h-2 bg-yellow-500 rounded-full mr-2"></div> Pending Payouts</li>
+              </ul>
+            </div>
+            <div class="md:col-span-2">
+              <h4 class="font-semibold mb-2">Quick Actions</h4>
+              <div class="grid grid-cols-2 gap-4">
+                <button class="p-3 bg-gray-800 hover:bg-gray-700 rounded-lg text-left">
+                  <div class="text-blue-400 mb-1"><i class="fas fa-user-plus"></i></div>
+                  <div class="text-sm font-medium">Add Team Member</div>
+                </button>
+                <button class="p-3 bg-gray-800 hover:bg-gray-700 rounded-lg text-left">
+                  <div class="text-green-400 mb-1"><i class="fas fa-download"></i></div>
+                  <div class="text-sm font-medium">Export Report</div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Team Management -->
+      <section id="team-management" class="mb-16">
+        <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-800">Team Management</h2>
+        <div class="glass p-6 rounded-xl">
+          <p class="text-gray-400 mb-6">Easily manage your team members, track their performance, and handle payments all in one place.</p>
+          
+          <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div>
+              <h3 class="text-xl font-semibold mb-4">Adding Team Members</h3>
+              <ol class="list-decimal list-inside space-y-3 text-gray-400">
+                <li>Click on "Add Member" in the Team Management section</li>
+                <li>Enter the member's email and assign a role</li>
+                <li>Set their payment distribution percentage</li>
+                <li>Click "Send Invitation"</li>
+              </ol>
+            </div>
+            <div>
+              <img src="https://via.placeholder.com/600x400/1f2937/9ca3af?text=Add+Member+Modal" alt="Add Team Member" class="rounded-lg w-full h-auto border border-gray-700">
+            </div>
+          </div>
+          
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="order-2 md:order-1">
+              <img src="https://via.placeholder.com/600x400/1f2937/9ca3af?text=Payment+Distribution" alt="Payment Distribution" class="rounded-lg w-full h-auto border border-gray-700">
+            </div>
+            <div class="order-1 md:order-2">
+              <h3 class="text-xl font-semibold mb-4">Payment Distribution</h3>
+              <ul class="space-y-3 text-gray-400">
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-2 flex-shrink-0"></div>
+                  <span>Set individual percentages for each team member</span>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-2 flex-shrink-0"></div>
+                  <span>Automatically calculate payouts based on performance</span>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-yellow-500 rounded-full mt-2 mr-2 flex-shrink-0"></div>
+                  <span>Track payment history and generate reports</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Transactions -->
+      <section id="transactions" class="mb-16">
+        <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-800">Transactions</h2>
+        <div class="glass p-6 rounded-xl">
+          <p class="text-gray-400 mb-6">Track all your transactions, filter by date, status, or amount, and export records for accounting.</p>
+          <img src="https://via.placeholder.com/1200x400/1f2937/9ca3af?text=Transactions+Page" alt="Transactions" class="rounded-lg w-full h-auto border border-gray-700">
+        </div>
+      </section>
+
+      <!-- Leaderboard -->
+      <section id="leaderboard" class="mb-16">
+        <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-800">Leaderboard</h2>
+        <div class="glass p-6 rounded-xl">
+          <p class="text-gray-400 mb-6">Compete with other teams and track your ranking based on performance metrics.</p>
+          <img src="https://via.placeholder.com/1200x600/1f2937/9ca3af?text=Leaderboard" alt="Leaderboard" class="rounded-lg w-full h-auto border border-gray-700">
+        </div>
+      </section>
+
+      <!-- Profile -->
+      <section id="profile">
+        <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-800">Profile Settings</h2>
+        <div class="glass p-6 rounded-xl">
+          <p class="text-gray-400 mb-6">Update your personal information, change your password, and manage notification preferences.</p>
+          <img src="https://via.placeholder.com/800x500/1f2937/9ca3af?text=Profile+Settings" alt="Profile Settings" class="rounded-lg w-full h-auto border border-gray-700">
+        </div>
+      </section>
+
+      <footer class="mt-16 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
+        <p>Need help? Contact our support team at <a href="mailto:support@phluowise.com" class="text-blue-400 hover:underline">support@phluowise.com</a></p>
+        <p class="mt-2">© 2024 Phluowise. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 100,
+            behavior: 'smooth'
+          });
+          
+          // Update URL without page jump
+          history.pushState(null, null, targetId);
+        }
+      });
+    });
+    
+    // Handle back button
+    window.addEventListener('popstate', function() {
+      const hash = window.location.hash;
+      if (hash) {
+        const target = document.querySelector(hash);
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 100,
+            behavior: 'smooth'
+          });
+        }
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  </script>
+</body>
+</html>

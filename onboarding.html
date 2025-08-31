@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Phluowise - Complete Your Profile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background-color: #000000;
+      color: #e5e7eb;
+    }
+    .glass {
+      background-color: rgba(255, 255, 255, 0.05);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    }
+    .progress-step {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      border: 2px solid #374151;
+      background-color: #1a1a1a;
+      color: #9ca3af;
+    }
+    .progress-step.active {
+      border-color: #3b74ff;
+      color: #3b74ff;
+      background-color: rgba(59, 116, 255, 0.1);
+    }
+    .progress-step.completed {
+      background-color: #3b74ff;
+      border-color: #3b74ff;
+      color: white;
+    }
+    .progress-line {
+      flex: 1 1 0%;
+      height: 0.25rem;
+      background-color: #374151;
+      margin: 0 0.5rem;
+    }
+    .progress-line.completed {
+      background-color: #3b74ff;
+    }
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background-color: #1a1a1a;
+      border: 1px solid #374151;
+      border-radius: 0.75rem;
+      color: #e5e7eb;
+      transition: all 0.3s ease;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: #3b74ff;
+      box-shadow: 0 0 0 2px rgba(59, 116, 255, 0.2);
+    }
+    .btn-primary {
+      background-color: #3b74ff;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-weight: 500;
+      transition: background-color 0.3s;
+    }
+    .btn-primary:hover {
+      background-color: #2e5cdb;
+    }
+    .btn-outline {
+      background-color: transparent;
+      color: #e5e7eb;
+      padding: 0.75rem 1.5rem;
+      border: 1px solid #374151;
+      border-radius: 0.75rem;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    .btn-outline:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-color: #4b5563;
+    }
+    .error-message {
+      color: #ef4444;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+    .input-error {
+      border-color: #ef4444;
+    }
+    .country-select {
+      width: 100%;
+      padding: 0.5rem;
+      background-color: #1a1a1a;
+      border: 1px solid #374151;
+      border-radius: 0.5rem;
+      color: #e5e7eb;
+    }
+    .country-select:focus {
+      outline: none;
+      border-color: #3b74ff;
+    }
+  </style>
+</head>
+<body class="bg-black min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-4xl">
+    <div class="glass rounded-2xl overflow-hidden">
+      <!-- Progress Indicator -->
+      <div class="p-6 border-b border-gray-800">
+        <div class="flex items-center justify-between max-w-md mx-auto">
+          <div class="flex flex-col items-center">
+            <div id="step1-indicator" class="progress-step active">1</div>
+            <span class="text-xs mt-2 text-blue-400">Profile</span>
+          </div>
+          <div id="line1" class="progress-line"></div>
+          <div class="flex flex-col items-center">
+            <div id="step2-indicator" class="progress-step">2</div>
+            <span class="text-xs mt-2 text-gray-500">Team</span>
+          </div>
+          <div id="line2" class="progress-line"></div>
+          <div class="flex flex-col items-center">
+            <div id="step3-indicator" class="progress-step">3</div>
+            <span class="text-xs mt-2 text-gray-500">Complete</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Step 1: Profile Setup -->
+      <div id="step1" class="p-8">
+        <div class="text-center mb-8">
+          <h1 class="text-2xl font-bold mb-2">Welcome to Phluowise! 👋</h1>
+          <p class="text-gray-400">Let's set up your profile to get started</p>
+        </div>
+        
+        <form id="profileForm" class="space-y-6">
+          <div class="flex flex-col items-center mb-8">
+            <div class="relative group">
+              <div class="w-32 h-32 rounded-full bg-gray-800 border-2 border-dashed border-gray-700 flex items-center justify-center overflow-hidden" id="profileImageContainer">
+                <img id="profileImage" src="" alt="Profile" class="w-full h-full object-cover hidden">
+                <i class="fas fa-user text-4xl text-gray-500" id="defaultAvatar"></i>
+              </div>
+              <input 
+                type="file" 
+                id="profileUpload" 
+                accept="image/*" 
+                class="hidden" 
+                aria-label="Profile picture upload"
+                title="Select a profile picture"
+              />
+              <button 
+                type="button" 
+                id="uploadButton"
+                class="absolute bottom-0 right-0 bg-blue-500 rounded-full p-2 hover:bg-blue-600 transition-colors"
+                aria-label="Upload profile picture"
+                title="Upload profile picture"
+              >
+                <i class="fas fa-camera text-white text-sm"></i>
+              </button>
+            </div>
+            <p class="text-sm text-gray-400 mt-2">Click to upload a profile picture</p>
+          </div>
+          
+          <div class="mb-4">
+            <label for="email" class="block text-sm font-medium mb-2 text-gray-300">Email Address</label>
+            <input type="email" id="email" required disabled
+                  class="form-input bg-gray-800 cursor-not-allowed"
+                  value="user@example.com">
+            <div id="email-error" class="error-message"></div>
+          </div>
+          
+          <div class="grid grid-cols-4 gap-4">
+            <div class="col-span-1">
+              <label for="countryCode" class="block text-sm font-medium mb-1">Code</label>
+              <select id="countryCode" class="country-select">
+                <option value="">Select Code</option>
+                <option value="+213">+213 (Algeria)</option>
+                <option value="+244">+244 (Angola)</option>
+                <option value="+229">+229 (Benin)</option>
+                <option value="+267">+267 (Botswana)</option>
+                <option value="+226">+226 (Burkina Faso)</option>
+                <option value="+257">+257 (Burundi)</option>
+                <option value="+238">+238 (Cape Verde)</option>
+                <option value="+235">+235 (Chad)</option>
+                <option value="+269">+269 (Comoros)</option>
+                <option value="+243">+243 (Congo, DR)</option>
+                <option value="+242">+242 (Congo, Republic)</option>
+                <option value="+225">+225 (Côte d'Ivoire)</option>
+                <option value="+253">+253 (Djibouti)</option>
+                <option value="+20">+20 (Egypt)</option>
+                <option value="+240">+240 (Equatorial Guinea)</option>
+                <option value="+291">+291 (Eritrea)</option>
+                <option value="+251">+251 (Ethiopia)</option>
+                <option value="+241">+241 (Gabon)</option>
+                <option value="+220">+220 (Gambia)</option>
+                <option value="+233">+233 (Ghana)</option>
+                <option value="+224">+224 (Guinea)</option>
+                <option value="+245">+245 (Guinea-Bissau)</option>
+                <option value="+254">+254 (Kenya)</option>
+                <option value="+266">+266 (Lesotho)</option>
+                <option value="+231">+231 (Liberia)</option>
+                <option value="+218">+218 (Libya)</option>
+                <option value="+261">+261 (Madagascar)</option>
+                <option value="+265">+265 (Malawi)</option>
+                <option value="+223">+223 (Mali)</option>
+                <option value="+222">+222 (Mauritania)</option>
+                <option value="+230">+230 (Mauritius)</option>
+                <option value="+212">+212 (Morocco)</option>
+                <option value="+258">+258 (Mozambique)</option>
+                <option value="+264">+264 (Namibia)</option>
+                <option value="+227">+227 (Niger)</option>
+                <option value="+234">+234 (Nigeria)</option>
+                <option value="+250">+250 (Rwanda)</option>
+                <option value="+221">+221 (Senegal)</option>
+                <option value="+248">+248 (Seychelles)</option>
+                <option value="+232">+232 (Sierra Leone)</option>
+                <option value="+252">+252 (Somalia)</option>
+                <option value="+27">+27 (South Africa)</option>
+                <option value="+211">+211 (South Sudan)</option>
+                <option value="+249">+249 (Sudan)</option>
+                <option value="+268">+268 (Eswatini)</option>
+                <option value="+255">+255 (Tanzania)</option>
+                <option value="+228">+228 (Togo)</option>
+                <option value="+216">+216 (Tunisia)</option>
+                <option value="+256">+256 (Uganda)</option>
+                <option value="+260">+260 (Zambia)</option>
+                <option value="+263">+263 (Zimbabwe)</option>
+              </select>
+              <div id="countryCode-error" class="error-message"></div>
+            </div>
+            <div class="col-span-3">
+              <label for="phone" class="block text-sm font-medium mb-1">Phone Number</label>
+              <input type="tel" id="phone"
+                    class="form-input"
+                    placeholder="123-456-789"
+                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}"
+                    title="Please enter a valid phone number (e.g., 123-456-789)">
+              <div id="phone-error" class="error-message"></div>
+            </div>
+          </div>
+          
+          <div>
+            <label for="marketingRole" class="block text-sm font-medium mb-2">Marketing Role</label>
+            <select id="marketingRole" class="form-input">
+              <option value="">Select your role</option>
+              <option value="cm">Community Manager</option>
+              <option value="content">Content Creator</option>
+              <option value="seo">SEO Specialist</option>
+              <option value="ppc">PPC Specialist</option>
+              <option value="social">Social Media Manager</option>
+              <option value="email">Email Marketing Specialist</option>
+              <option value="analytics">Marketing Analyst</option>
+              <option value="director">Marketing Director</option>
+              <option value="other">Other Marketing Role</option>
+            </select>
+            <div id="marketingRole-error" class="error-message"></div>
+          </div>
+          
+          <div class="pt-4">
+            <button type="submit" 
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors">
+              Continue to Team Setup
+            </button>
+          </div>
+        </form>
+      </div>
+      
+      <!-- Step 2: Team Setup (initially hidden) -->
+      <div id="step2" class="p-8 hidden">
+        <div class="text-center mb-8">
+          <h1 class="text-2xl font-bold mb-2">Team Setup</h1>
+          <p class="text-gray-400">Create a new team or join an existing one</p>
+        </div>
+        
+        <!-- Team Selection Tabs -->
+        <div class="mb-8">
+          <div class="flex border-b border-gray-700 mb-6">
+            <button type="button" id="createTeamTab" class="tab-button active py-3 px-6 font-medium border-b-2 border-blue-500 text-blue-400">
+              Create New Team
+            </button>
+            <button type="button" id="joinTeamTab" class="tab-button py-3 px-6 font-medium text-gray-400 hover:text-white">
+              Join Existing Team
+            </button>
+          </div>
+          
+          <!-- Create Team Form -->
+          <div id="createTeamForm" class="space-y-6">
+            <div>
+              <label for="teamName" class="block text-sm font-medium mb-2 text-gray-300">Team Name</label>
+              <input type="text" id="teamName" required
+                     class="form-input"
+                     placeholder="Enter your team name">
+              <div id="teamName-error" class="error-message"></div>
+              <p class="mt-1 text-xs text-gray-500">This can be your company name or a team identifier</p>
+            </div>
+            
+            <div>
+              <label for="teamIndustry" class="block text-sm font-medium mb-2 text-gray-300">Industry</label>
+              <select id="teamIndustry" class="form-input">
+                <option value="" disabled selected>Select your industry</option>
+                <option value="ecommerce">E-commerce</option>
+                <option value="saas">SaaS</option>
+                <option value="agency">Marketing Agency</option>
+                <option value="finance">Finance</option>
+                <option value="health">Health & Wellness</option>
+                <option value="education">Education</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="other">Other</option>
+              </select>
+              <div id="teamIndustry-error" class="error-message"></div>
+            </div>
+            
+            <div class="pt-4">
+              <h3 class="text-lg font-medium text-gray-200 mb-3">Team Members</h3>
+              <div id="teamMembersList" class="space-y-3 mb-4">
+                <!-- Team members will be added here -->
+              </div>
+              <button type="button" id="addMemberBtn" class="inline-flex items-center text-sm text-blue-400 hover:text-blue-300">
+                <i class="fas fa-plus-circle mr-1"></i> Add Team Member
+              </button>
+            </div>
+          </div>
+          
+          <!-- Join Team Form (initially hidden) -->
+          <div id="joinTeamForm" class="space-y-6 hidden">
+            <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-700">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <i class="fas fa-info-circle text-blue-400 mt-0.5"></i>
+                </div>
+                <div class="ml-3">
+                  <h3 class="text-sm font-medium text-gray-200">Team Invitation Required</h3>
+                  <p class="text-sm text-gray-400 mt-1">You'll need an invitation code from your team admin to join an existing team.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <label for="teamCode" class="block text-sm font-medium mb-2 text-gray-300">Team Invitation Code</label>
+              <div class="flex space-x-2">
+                <input type="text" id="teamCode" 
+                       class="form-input flex-1"
+                       placeholder="Enter 8-digit code">
+                <button type="button" id="pasteCodeBtn" 
+                        class="btn-outline flex items-center whitespace-nowrap"
+                        title="Paste from clipboard">
+                  <i class="far fa-clipboard mr-1"></i> Paste
+                </button>
+              </div>
+              <div id="teamCode-error" class="error-message"></div>
+              <p class="mt-2 text-xs text-gray-500">Ask your team admin for the invitation code</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flex justify-between pt-4">
+          <button type="button" id="prevStepBtn" class="btn-outline">Previous</button>
+          <button type="button" id="nextStepBtn" class="btn-primary">Continue</button>
+        </div>
+        
+        <div class="text-center mt-4">
+          <button type="button" id="skipTeamBtn" class="text-gray-400 hover:text-gray-300 text-sm">
+            Skip for now, I'll set up my team later
+          </button>
+        </div>
+      </div>
+      
+      <!-- Step 3: Completion (initially hidden) -->
+      <div id="step3" class="p-8 text-center hidden">
+        <div class="max-w-md mx-auto">
+          <div class="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-check text-4xl text-green-400"></i>
+          </div>
+          <h1 class="text-3xl font-bold mb-4">All Set! 🎉</h1>
+          <p class="text-gray-300 text-lg mb-8">Your Phluowise account is ready to use</p>
+          
+          <div class="glass p-6 rounded-xl text-left mb-8">
+            <h3 class="font-medium text-lg mb-4">Next Steps</h3>
+            <ul class="space-y-3">
+              <li class="flex items-start">
+                <div class="flex-shrink-0 mt-1">
+                  <div class="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <i class="fas fa-user-plus text-xs text-blue-400"></i>
+                  </div>
+                </div>
+                <span class="ml-3 text-gray-300">Invite team members from your <a href="#" class="text-blue-400 hover:underline">Team Settings</a></span>
+              </li>
+              <li class="flex items-start">
+                <div class="flex-shrink-0 mt-1">
+                  <div class="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <i class="fas fa-user text-xs text-blue-400"></i>
+                  </div>
+                </div>
+                <span class="ml-3 text-gray-300">Complete your profile information</span>
+              </li>
+              <li class="flex items-start">
+                <div class="flex-shrink-0 mt-1">
+                  <div class="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <i class="fas fa-arrow-right text-xs text-blue-400"></i>
+                  </div>
+                </div>
+                <span class="ml-3 text-gray-300">Start exploring the dashboard</span>
+              </li>
+            </ul>
+          </div>
+          
+          <a href="index.html" class="inline-block w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg transition-colors">
+            Go to Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // DOM Elements
+      const profileForm = document.getElementById('profileForm');
+      const nextStepBtn = document.getElementById('nextStepBtn');
+      const prevStepBtn = document.getElementById('prevStepBtn');
+      const steps = document.querySelectorAll('[id^="step"]');
+      const progressSteps = document.querySelectorAll('.progress-step');
+      const progressLines = document.querySelectorAll('.progress-line');
+      const skipTeamBtn = document.getElementById('skipTeamBtn');
+      const createTeamTab = document.getElementById('createTeamTab');
+      const joinTeamTab = document.getElementById('joinTeamTab');
+      const createTeamForm = document.getElementById('createTeamForm');
+      const joinTeamForm = document.getElementById('joinTeamForm');
+      const addMemberBtn = document.getElementById('addMemberBtn');
+      const teamMembersList = document.getElementById('teamMembersList');
+      const pasteCodeBtn = document.getElementById('pasteCodeBtn');
+      const profileImage = document.getElementById('profileImage');
+      const defaultAvatar = document.getElementById('defaultAvatar');
+      const profileUpload = document.getElementById('profileUpload');
+      const uploadButton = document.getElementById('uploadButton');
+      const phoneInput = document.getElementById('phone');
+      const countryCodeSelect = document.getElementById('countryCode');
+      const marketingRoleSelect = document.getElementById('marketingRole');
+      const teamNameInput = document.getElementById('teamName');
+      const teamIndustrySelect = document.getElementById('teamIndustry');
+      const teamCodeInput = document.getElementById('teamCode');
+      
+      let currentStep = 1;
+      const totalSteps = 3;
+      let teamMembers = [];
+      
+      // Initialize the app
+      init();
+      
+      function init() {
+        // Set up event listeners
+        setupEventListeners();
+        
+        // Get user email from URL or use placeholder
+        const urlParams = new URLSearchParams(window.location.search);
+        const userEmail = urlParams.get('email') || 'user@example.com';
+        document.getElementById('email').value = userEmail;
+        
+        // Set up profile image upload
+        uploadButton.addEventListener('click', () => profileUpload.click());
+        
+        profileUpload.addEventListener('change', function(e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+              profileImage.src = event.target.result;
+              profileImage.classList.remove('hidden');
+              defaultAvatar.classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+        
+        // Set up the initial step
+        updateStep(1);
+      }
+      
+      function setupEventListeners() {
+        // Navigation
+        nextStepBtn.addEventListener('click', handleNext);
+        prevStepBtn.addEventListener('click', handlePrevious);
+        skipTeamBtn.addEventListener('click', skipTeamSetup);
+        
+        // Team setup tabs
+        createTeamTab.addEventListener('click', () => switchTeamTab('create'));
+        joinTeamTab.addEventListener('click', () => switchTeamTab('join'));
+        
+        // Team management
+        addMemberBtn.addEventListener('click', addTeamMember);
+        pasteCodeBtn.addEventListener('click', pasteFromClipboard);
+        
+        // Form submission
+        profileForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          if (validateProfileStep()) {
+            // Save profile data
+            const profileData = {
+              email: document.getElementById('email').value,
+              phone: countryCodeSelect.value + ' ' + phoneInput.value,
+              marketingRole: marketingRoleSelect.value,
+              profilePicture: profileImage.src || ''
+            };
+            
+            // Store in local storage
+            localStorage.setItem('userProfile', JSON.stringify(profileData));
+            
+            // Proceed to next step
+            handleNext();
+          }
+        });
+        
+        // Format phone number as user types
+        phoneInput.addEventListener('input', function(e) {
+          let numbers = this.value.replace(/\D/g, '');
+          let formatted = '';
+          
+          if (numbers.length > 0) {
+            if (numbers.length <= 3) {
+              formatted = numbers;
+            } else if (numbers.length <= 6) {
+              formatted = numbers.substring(0, 3) + '-' + numbers.substring(3);
+            } else {
+              formatted = numbers.substring(0, 3) + '-' + numbers.substring(3, 6) + '-' + numbers.substring(6, 9);
+            }
+          }
+          
+          this.value = formatted;
+        });
+        
+        // Input validation on blur
+        phoneInput.addEventListener('blur', () => validatePhone());
+        countryCodeSelect.addEventListener('change', () => validateCountryCode());
+        marketingRoleSelect.addEventListener('change', () => validateMarketingRole());
+        teamNameInput?.addEventListener('blur', () => validateTeamName());
+        teamIndustrySelect?.addEventListener('change', () => validateTeamIndustry());
+        teamCodeInput?.addEventListener('blur', () => validateTeamCode());
+      }
+      
+      function updateStep(step) {
+        // Hide all steps
+        steps.forEach(stepEl => stepEl.classList.add('hidden'));
+        
+        // Show current step
+        const currentStepEl = document.getElementById(`step${step}`);
+        if (currentStepEl) currentStepEl.classList.remove('hidden');
+        
+        // Update progress indicators
+        updateProgressIndicators(step);
+        
+        // Update navigation buttons
+        updateNavigationButtons(step);
+        
+        currentStep = step;
+      }
+      
+      function updateProgressIndicators(step) {
+        // Update step indicators
+        progressSteps.forEach((indicator, index) => {
+          const stepNumber = index + 1;
+          indicator.classList.remove('completed', 'active');
+          if (stepNumber < step) {
+            indicator.classList.add('completed');
+          } else if (stepNumber === step) {
+            indicator.classList.add('active');
+          }
+          
+          indicator.innerHTML = stepNumber < step ? '<i class="fas fa-check text-xs"></i>' : stepNumber;
+        });
+        
+        // Update progress lines
+        progressLines.forEach((line, index) => {
+          line.classList.toggle('completed', index < step - 1);
+        });
+      }
+      
+      function updateNavigationButtons(step) {
+        // Previous button
+        prevStepBtn.classList.toggle('hidden', step === 1);
+        
+        // Next button text
+        if (step === totalSteps) {
+          nextStepBtn.classList.add('hidden');
+        } else {
+          nextStepBtn.classList.remove('hidden');
+          nextStepBtn.textContent = step === totalSteps - 1 ? 'Complete Setup' : 'Continue';
+        }
+      }
+      
+      function handleNext() {
+        if (currentStep < totalSteps) {
+          if (validateCurrentStep()) {
+            currentStep++;
+            updateStep(currentStep);
+            
+            if (currentStep === 2) {
+              initializeTeamTab();
+              switchTeamTab('create');
+            }
+            
+            // Scroll to top of the form
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        } else if (currentStep === totalSteps) {
+          completeOnboarding();
+        }
+      }
+      
+      function handlePrevious() {
+        if (currentStep > 1) {
+          currentStep--;
+          updateStep(currentStep);
+          
+          // Scroll to top of the form
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+      
+      function validateCurrentStep() {
+        switch(currentStep) {
+          case 1:
+            return validateProfileStep();
+          case 2:
+            return validateTeamStep();
+          default:
+            return true;
+        }
+      }
+      
+      function validateProfileStep() {
+        const email = document.getElementById('email').value.trim();
+        const phone = phoneInput.value.trim();
+        const countryCode = countryCodeSelect.value;
+        const marketingRole = marketingRoleSelect.value;
+        let isValid = true;
+        
+        // Clear previous errors
+        clearAllErrors();
+        
+        if (!email) {
+          showInputError('email', 'Email address is required');
+          isValid = false;
+        } else if (!validateEmail(email)) {
+          showInputError('email', 'Please enter a valid email address');
+          isValid = false;
+        }
+        
+        if (!countryCode) {
+          showInputError('countryCode', 'Country code is required');
+          isValid = false;
+        }
+        
+        if (!phone) {
+          showInputError('phone', 'Phone number is required');
+          isValid = false;
+        } else {
+          // Basic phone validation (9 digits + formatting)
+          const phoneRegex = /^\d{3}-\d{3}-\d{3}$/;
+          if (!phoneRegex.test(phone)) {
+            showInputError('phone', 'Please enter a valid phone number (e.g., 123-456-789)');
+            isValid = false;
+          }
+        }
+        
+        if (!marketingRole) {
+          showInputError('marketingRole', 'Please select your marketing role');
+          isValid = false;
+        }
+        
+        return isValid;
+      }
+      
+      function validateTeamStep() {
+        const isCreateTeam = createTeamTab.classList.contains('active');
+        let isValid = true;
+        
+        // Clear previous errors
+        clearAllErrors();
+        
+        if (isCreateTeam) {
+          const teamName = document.getElementById('teamName');
+          if (!teamName?.value.trim()) {
+            showInputError('teamName', 'Team name is required');
+            isValid = false;
+          }
+          
+          const teamIndustry = document.getElementById('teamIndustry');
+          if (!teamIndustry?.value) {
+            showInputError('teamIndustry', 'Industry is required');
+            isValid = false;
+          }
+        } else {
+          const teamCode = document.getElementById('teamCode');
+          if (!teamCode?.value.trim()) {
+            showInputError('teamCode', 'Team invitation code is required');
+            isValid = false;
+          } else if (teamCode.value.length !== 8) {
+            showInputError('teamCode', 'Invitation code must be 8 characters');
+            isValid = false;
+          }
+        }
+        
+        return isValid;
+      }
+      
+      // Individual validation functions
+      function validateCountryCode() {
+        const value = countryCodeSelect.value;
+        if (!value) {
+          showInputError('countryCode', 'Country code is required');
+          return false;
+        }
+        clearError('countryCode');
+        return true;
+      }
+      
+      function validatePhone() {
+        const value = phoneInput.value.trim();
+        const phoneRegex = /^\d{3}-\d{3}-\d{3}$/;
+        
+        if (!value) {
+          showInputError('phone', 'Phone number is required');
+          return false;
+        } else if (!phoneRegex.test(value)) {
+          showInputError('phone', 'Please enter a valid phone number (e.g., 123-456-789)');
+          return false;
+        }
+        clearError('phone');
+        return true;
+      }
+      
+      function validateMarketingRole() {
+        const value = marketingRoleSelect.value;
+        if (!value) {
+          showInputError('marketingRole', 'Please select your marketing role');
+          return false;
+        }
+        clearError('marketingRole');
+        return true;
+      }
+      
+      function validateTeamName() {
+        const value = teamNameInput.value.trim();
+        if (!value) {
+          showInputError('teamName', 'Team name is required');
+          return false;
+        }
+        clearError('teamName');
+        return true;
+      }
+      
+      function validateTeamIndustry() {
+        const value = teamIndustrySelect.value;
+        if (!value) {
+          showInputError('teamIndustry', 'Industry is required');
+          return false;
+        }
+        clearError('teamIndustry');
+        return true;
+      }
+      
+      function validateTeamCode() {
+        const value = teamCodeInput.value.trim();
+        if (!value) {
+          showInputError('teamCode', 'Team invitation code is required');
+          return false;
+        } else if (value.length !== 8) {
+          showInputError('teamCode', 'Invitation code must be 8 characters');
+          return false;
+        }
+        clearError('teamCode');
+        return true;
+      }
+      
+      function showInputError(fieldId, message) {
+        const errorElement = document.getElementById(`${fieldId}-error`);
+        const inputElement = document.getElementById(fieldId);
+        
+        if (errorElement && inputElement) {
+          errorElement.textContent = message;
+          errorElement.style.display = 'block';
+          inputElement.classList.add('input-error');
+        }
+      }
+      
+      function clearError(fieldId) {
+        const errorElement = document.getElementById(`${fieldId}-error`);
+        const inputElement = document.getElementById(fieldId);
+        
+        if (errorElement && inputElement) {
+          errorElement.style.display = 'none';
+          inputElement.classList.remove('input-error');
+        }
+      }
+      
+      function clearAllErrors() {
+        const errorElements = document.querySelectorAll('.error-message');
+        const inputElements = document.querySelectorAll('.input-error');
+        
+        errorElements.forEach(element => {
+          element.style.display = 'none';
+        });
+        
+        inputElements.forEach(element => {
+          element.classList.remove('input-error');
+        });
+      }
+      
+      function initializeTeamTab() {
+        // Default to create team tab
+        switchTeamTab('create');
+        
+        // Add first team member (current user)
+        const userEmail = document.getElementById('email')?.value || 'user@example.com';
+        teamMembers = [{
+          id: 'current-user',
+          email: userEmail,
+          role: 'admin',
+          name: 'You'
+        }];
+        
+        renderTeamMembers();
+      }
+      
+      function switchTeamTab(tab) {
+        if (tab === 'create') {
+          createTeamTab.classList.add('active', 'border-blue-500', 'text-blue-400');
+          createTeamTab.classList.remove('text-gray-400');
+          joinTeamTab.classList.remove('active', 'border-blue-500', 'text-blue-400');
+          joinTeamTab.classList.add('text-gray-400');
+          createTeamForm.classList.remove('hidden');
+          joinTeamForm.classList.add('hidden');
+        } else {
+          joinTeamTab.classList.add('active', 'border-blue-500', 'text-blue-400');
+          joinTeamTab.classList.remove('text-gray-400');
+          createTeamTab.classList.remove('active', 'border-blue-500', 'text-blue-400');
+          createTeamTab.classList.add('text-gray-400');
+          joinTeamForm.classList.remove('hidden');
+          createTeamForm.classList.add('hidden');
+        }
+      }
+      
+      function addTeamMember() {
+        const email = prompt('Enter team member\'s email:');
+        if (email && validateEmail(email)) {
+          const memberId = `member-${Date.now()}`;
+          teamMembers.push({
+            id: memberId,
+            email: email.trim(),
+            role: 'member',
+            status: 'pending'
+          });
+          renderTeamMembers();
+        } else if (email) {
+          showError('Please enter a valid email address');
+        }
+      }
+      
+      function removeTeamMember(memberId) {
+        teamMembers = teamMembers.filter(member => member.id !== memberId);
+        renderTeamMembers();
+      }
+      
+      function updateMemberRole(memberId, role) {
+        const member = teamMembers.find(m => m.id === memberId);
+        if (member) {
+          member.role = role;
+          renderTeamMembers();
+        }
+      }
+      
+      function renderTeamMembers() {
+        if (!teamMembersList) return;
+        
+        teamMembersList.innerHTML = teamMembers.map(member => `
+          <div class="flex items-center justify-between p-3 bg-gray-900/50 rounded-lg" data-member-id="${member.id}">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center">
+                <i class="fas fa-user text-gray-400"></i>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-200">${member.name || member.email}</p>
+                <p class="text-xs text-gray-400">${member.role === 'admin' ? 'Admin' : 'Member'}</p>
+              </div>
+            </div>
+            ${member.id !== 'current-user' ? `
+              <div class="flex items-center space-x-2">
+                <select class="text-xs bg-gray-800 border border-gray-700 rounded px-2 py-1 text-gray-200" 
+                        onchange="window.updateMemberRole('${member.id}', this.value)">
+                  <option value="member" ${member.role === 'member' ? 'selected' : ''}>Member</option>
+                  <option value="admin" ${member.role === 'admin' ? 'selected' : ''}>Admin</option>
+                </select>
+                <button type="button" 
+                        class="text-red-400 hover:text-red-300"
+                        onclick="window.removeTeamMember('${member.id}')">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            ` : '<span class="text-xs text-blue-400">You</span>'}
+          </div>
+        `).join('');
+      }
+      
+      function pasteFromClipboard() {
+        navigator.clipboard.readText()
+          .then(text => {
+            const teamCode = document.getElementById('teamCode');
+            if (teamCode) teamCode.value = text;
+          })
+          .catch(err => {
+            console.error('Failed to read from clipboard:', err);
+            showError('Could not paste from clipboard. Please check permissions.');
+          });
+      }
+      
+      function skipTeamSetup() {
+        if (confirm('Are you sure you want to skip team setup? You can set up your team later from the dashboard.')) {
+          updateStep(3);
+        }
+      }
+      
+      function completeOnboarding() {
+        // Prepare user data
+        const userData = {
+          profile: {
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            profileImage: document.getElementById('profileImage').src || null
+          },
+          team: {
+            members: teamMembers,
+            teamName: document.getElementById('teamName')?.value || null,
+            inviteCode: document.getElementById('teamCode')?.value || null
+          },
+          onboardingComplete: true,
+          lastUpdated: new Date().toISOString()
+        };
+        
+        // Save to localStorage (in a real app, this would be an API call)
+        localStorage.setItem('userData', JSON.stringify(userData));
+        
+        // Mark onboarding as complete
+        localStorage.setItem('onboardingComplete', 'true');
+        
+        // Redirect to dashboard
+        window.location.href = 'index.html';
+      }
+      
+      function showError(message) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: message,
+          confirmButtonColor: '#3b74ff',
+          confirmButtonText: 'OK'
+        });
+      }
+      
+      function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+      }
+      
+      // Make functions available globally for inline handlers
+      window.updateMemberRole = updateMemberRole;
+      window.removeTeamMember = removeTeamMember;
+    });
+  </script>
+</body>
+</html>
