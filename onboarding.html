@@ -423,77 +423,85 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // DOM Elements
-      const profileForm = document.getElementById('profileForm');
-      const nextStepBtn = document.getElementById('nextStepBtn');
-      const prevStepBtn = document.getElementById('prevStepBtn');
-      const steps = document.querySelectorAll('[id^="step"]');
-      const progressSteps = document.querySelectorAll('.progress-step');
-      const progressLines = document.querySelectorAll('.progress-line');
-      const skipTeamBtn = document.getElementById('skipTeamBtn');
-      const createTeamTab = document.getElementById('createTeamTab');
-      const joinTeamTab = document.getElementById('joinTeamTab');
-      const createTeamForm = document.getElementById('createTeamForm');
-      const joinTeamForm = document.getElementById('joinTeamForm');
-      const addMemberBtn = document.getElementById('addMemberBtn');
-      const teamMembersList = document.getElementById('teamMembersList');
-      const pasteCodeBtn = document.getElementById('pasteCodeBtn');
-      const profileImage = document.getElementById('profileImage');
-      const defaultAvatar = document.getElementById('defaultAvatar');
-      const profileUpload = document.getElementById('profileUpload');
-      const uploadButton = document.getElementById('uploadButton');
-      const phoneInput = document.getElementById('phone');
-      const countryCodeSelect = document.getElementById('countryCode');
-      const marketingRoleSelect = document.getElementById('marketingRole');
-      const teamNameInput = document.getElementById('teamName');
-      const teamIndustrySelect = document.getElementById('teamIndustry');
-      const teamCodeInput = document.getElementById('teamCode');
-      
-      let currentStep = 1;
-      const totalSteps = 3;
-      let teamMembers = [];
-      
-      // Initialize the app
-      init();
-      
-      function init() {
-        // Set up event listeners
-        setupEventListeners();
-        
-        // Get user email from URL or use placeholder
-        const urlParams = new URLSearchParams(window.location.search);
-        const userEmail = urlParams.get('email') || 'user@example.com';
-        document.getElementById('email').value = userEmail;
-        
-        // Set up profile image upload
-        uploadButton.addEventListener('click', () => profileUpload.click());
-        
-        profileUpload.addEventListener('change', function(e) {
-          const file = e.target.files[0];
-          if (file) {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-              profileImage.src = event.target.result;
-              profileImage.classList.remove('hidden');
-              defaultAvatar.classList.add('hidden');
-            };
-            reader.readAsDataURL(file);
-          }
-        });
-        
-        // Set up the initial step
-        updateStep(1);
+      // Check if user is authenticated
+      if (!Auth.isAuthenticated()) {
+        window.location.href = 'signin.html';
+        return;
       }
       
+      // Check if onboarding is already complete
+      if (localStorage.getItem('onboardingComplete') === 'true') {
+        window.location.href = 'index.html';
+        return;
+      }
+      
+      // Get current user
+      const user = Auth.getCurrentUser();
+      if (!user) {
+        window.location.href = 'signin.html';
+        return;
+      }
+      
+      // DOM Elements
+      const profileForm = document.getElementById('profileForm');
+      const teamForm = document.getElementById('teamForm');
+      const nextButtons = document.querySelectorAll('.next-btn');
+      const prevButtons = document.querySelectorAll('.prev-btn');
+      const skipButtons = document.querySelectorAll('.skip-btn');
+      const steps = document.querySelectorAll('[id^="step"]');
+      const progressDots = document.querySelectorAll('.progress-dot');
+      const progressBars = document.querySelectorAll('.progress-bar');
+      const completeBtn = document.getElementById('completeBtn');
+      const joinTeamBtn = document.getElementById('joinTeamBtn');
+      const createTeamBtn = document.getElementById('createTeamBtn');
+      const teamTabs = document.querySelectorAll('.team-tab');
+      const teamTabContents = document.querySelectorAll('.team-tab-content');
+      const addMemberBtn = document.getElementById('addMemberBtn');
+      const teamMembersList = document.getElementById('teamMembersList');
+      const teamCodeInput = document.getElementById('teamCode');
+      const pasteCodeBtn = document.getElementById('pasteCodeBtn');
+      const profileImageInput = document.getElementById('profileImageInput');
+      const profileImage = document.getElementById('profileImage');
+      const profileImageContainer = document.getElementById('profileImageContainer');
+      const removeImageBtn = document.getElementById('removeImage');
+      
+      // Form fields
+      const countryCode = document.getElementById('countryCode');
+      const phoneNumber = document.getElementById('phoneNumber');
+      const marketingRole = document.getElementById('marketingRole');
+      const teamName = document.getElementById('teamName');
+      const teamIndustry = document.getElementById('teamIndustry');
+      const memberEmail = document.getElementById('memberEmail');
+      const memberRole = document.getElementById('memberRole');
+      
+      // State
+      let currentStep = 1;
+      let teamMembers = [];
+      let teamTab = 'create'; // 'create' or 'join'
+      
+      // Initialize
+      setupEventListeners();
+      initializeTeamTab();
+      updateStep(1);
+      
+      // Pre-fill user data if available
+      if (user.firstName && user.lastName) {
+        document.getElementById('firstName').value = user.firstName;
+        document.getElementById('lastName').value = user.lastName;
+      }
+      if (user.email) {
+        document.getElementById('email').value = user.email;
+      }
+      
+      // Setup event listeners
       function setupEventListeners() {
         // Navigation
-        nextStepBtn.addEventListener('click', handleNext);
-        prevStepBtn.addEventListener('click', handlePrevious);
-        skipTeamBtn.addEventListener('click', skipTeamSetup);
+        nextButtons.forEach(button => button.addEventListener('click', handleNext));
+        prevButtons.forEach(button => button.addEventListener('click', handlePrevious));
+        skipButtons.forEach(button => button.addEventListener('click', skipTeamSetup));
         
         // Team setup tabs
-        createTeamTab.addEventListener('click', () => switchTeamTab('create'));
-        joinTeamTab.addEventListener('click', () => switchTeamTab('join'));
+        teamTabs.forEach(tab => tab.addEventListener('click', switchTeamTab));
         
         // Team management
         addMemberBtn.addEventListener('click', addTeamMember);
@@ -506,9 +514,9 @@
             // Save profile data
             const profileData = {
               email: document.getElementById('email').value,
-              phone: countryCodeSelect.value + ' ' + phoneInput.value,
-              marketingRole: marketingRoleSelect.value,
-              profilePicture: profileImage.src || ''
+              phone: `${countryCode.value}${phoneNumber.value}`,
+              marketingRole: marketingRole.value,
+              profileComplete: true
             };
             
             // Store in local storage
@@ -520,7 +528,7 @@
         });
         
         // Format phone number as user types
-        phoneInput.addEventListener('input', function(e) {
+        phoneNumber.addEventListener('input', function(e) {
           let numbers = this.value.replace(/\D/g, '');
           let formatted = '';
           
@@ -538,14 +546,15 @@
         });
         
         // Input validation on blur
-        phoneInput.addEventListener('blur', () => validatePhone());
-        countryCodeSelect.addEventListener('change', () => validateCountryCode());
-        marketingRoleSelect.addEventListener('change', () => validateMarketingRole());
-        teamNameInput?.addEventListener('blur', () => validateTeamName());
-        teamIndustrySelect?.addEventListener('change', () => validateTeamIndustry());
-        teamCodeInput?.addEventListener('blur', () => validateTeamCode());
+        phoneNumber.addEventListener('blur', () => validatePhone());
+        countryCode.addEventListener('change', () => validateCountryCode());
+        marketingRole.addEventListener('change', () => validateMarketingRole());
+        teamName.addEventListener('blur', () => validateTeamName());
+        teamIndustry.addEventListener('change', () => validateTeamIndustry());
+        teamCodeInput.addEventListener('blur', () => validateTeamCode());
       }
       
+      // Update step
       function updateStep(step) {
         // Hide all steps
         steps.forEach(stepEl => stepEl.classList.add('hidden'));
@@ -563,9 +572,10 @@
         currentStep = step;
       }
       
+      // Update progress indicators
       function updateProgressIndicators(step) {
         // Update step indicators
-        progressSteps.forEach((indicator, index) => {
+        progressDots.forEach((indicator, index) => {
           const stepNumber = index + 1;
           indicator.classList.remove('completed', 'active');
           if (stepNumber < step) {
@@ -577,27 +587,29 @@
           indicator.innerHTML = stepNumber < step ? '<i class="fas fa-check text-xs"></i>' : stepNumber;
         });
         
-        // Update progress lines
-        progressLines.forEach((line, index) => {
-          line.classList.toggle('completed', index < step - 1);
+        // Update progress bars
+        progressBars.forEach((bar, index) => {
+          bar.classList.toggle('completed', index < step - 1);
         });
       }
       
+      // Update navigation buttons
       function updateNavigationButtons(step) {
         // Previous button
-        prevStepBtn.classList.toggle('hidden', step === 1);
+        prevButtons.forEach(button => button.classList.toggle('hidden', step === 1));
         
         // Next button text
-        if (step === totalSteps) {
-          nextStepBtn.classList.add('hidden');
+        if (step === 3) {
+          nextButtons.forEach(button => button.classList.add('hidden'));
         } else {
-          nextStepBtn.classList.remove('hidden');
-          nextStepBtn.textContent = step === totalSteps - 1 ? 'Complete Setup' : 'Continue';
+          nextButtons.forEach(button => button.classList.remove('hidden'));
+          nextButtons.forEach(button => button.textContent = step === 2 ? 'Complete Setup' : 'Continue');
         }
       }
       
+      // Handle next step
       function handleNext() {
-        if (currentStep < totalSteps) {
+        if (currentStep < 3) {
           if (validateCurrentStep()) {
             currentStep++;
             updateStep(currentStep);
@@ -610,11 +622,12 @@
             // Scroll to top of the form
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }
-        } else if (currentStep === totalSteps) {
+        } else if (currentStep === 3) {
           completeOnboarding();
         }
       }
       
+      // Handle previous step
       function handlePrevious() {
         if (currentStep > 1) {
           currentStep--;
@@ -625,6 +638,7 @@
         }
       }
       
+      // Validate current step
       function validateCurrentStep() {
         switch(currentStep) {
           case 1:
@@ -636,11 +650,12 @@
         }
       }
       
+      // Validate profile step
       function validateProfileStep() {
         const email = document.getElementById('email').value.trim();
-        const phone = phoneInput.value.trim();
-        const countryCode = countryCodeSelect.value;
-        const marketingRole = marketingRoleSelect.value;
+        const phone = phoneNumber.value.trim();
+        const countryCode = document.getElementById('countryCode').value;
+        const marketingRole = marketingRole.value;
         let isValid = true;
         
         // Clear previous errors
@@ -679,31 +694,32 @@
         return isValid;
       }
       
+      // Validate team step
       function validateTeamStep() {
-        const isCreateTeam = createTeamTab.classList.contains('active');
+        const isCreateTeam = createTeamBtn.classList.contains('active');
         let isValid = true;
         
         // Clear previous errors
         clearAllErrors();
         
         if (isCreateTeam) {
-          const teamName = document.getElementById('teamName');
-          if (!teamName?.value.trim()) {
+          const teamName = teamName.value.trim();
+          if (!teamName) {
             showInputError('teamName', 'Team name is required');
             isValid = false;
           }
           
-          const teamIndustry = document.getElementById('teamIndustry');
-          if (!teamIndustry?.value) {
+          const teamIndustry = teamIndustry.value;
+          if (!teamIndustry) {
             showInputError('teamIndustry', 'Industry is required');
             isValid = false;
           }
         } else {
-          const teamCode = document.getElementById('teamCode');
-          if (!teamCode?.value.trim()) {
+          const teamCode = teamCodeInput.value.trim();
+          if (!teamCode) {
             showInputError('teamCode', 'Team invitation code is required');
             isValid = false;
-          } else if (teamCode.value.length !== 8) {
+          } else if (teamCode.length !== 8) {
             showInputError('teamCode', 'Invitation code must be 8 characters');
             isValid = false;
           }
@@ -714,7 +730,7 @@
       
       // Individual validation functions
       function validateCountryCode() {
-        const value = countryCodeSelect.value;
+        const value = countryCode.value;
         if (!value) {
           showInputError('countryCode', 'Country code is required');
           return false;
@@ -724,7 +740,7 @@
       }
       
       function validatePhone() {
-        const value = phoneInput.value.trim();
+        const value = phoneNumber.value.trim();
         const phoneRegex = /^\d{3}-\d{3}-\d{3}$/;
         
         if (!value) {
@@ -739,7 +755,7 @@
       }
       
       function validateMarketingRole() {
-        const value = marketingRoleSelect.value;
+        const value = marketingRole.value;
         if (!value) {
           showInputError('marketingRole', 'Please select your marketing role');
           return false;
@@ -749,7 +765,7 @@
       }
       
       function validateTeamName() {
-        const value = teamNameInput.value.trim();
+        const value = teamName.value.trim();
         if (!value) {
           showInputError('teamName', 'Team name is required');
           return false;
@@ -759,7 +775,7 @@
       }
       
       function validateTeamIndustry() {
-        const value = teamIndustrySelect.value;
+        const value = teamIndustry.value;
         if (!value) {
           showInputError('teamIndustry', 'Industry is required');
           return false;
@@ -781,6 +797,7 @@
         return true;
       }
       
+      // Show input error
       function showInputError(fieldId, message) {
         const errorElement = document.getElementById(`${fieldId}-error`);
         const inputElement = document.getElementById(fieldId);
@@ -792,6 +809,7 @@
         }
       }
       
+      // Clear error
       function clearError(fieldId) {
         const errorElement = document.getElementById(`${fieldId}-error`);
         const inputElement = document.getElementById(fieldId);
@@ -802,6 +820,7 @@
         }
       }
       
+      // Clear all errors
       function clearAllErrors() {
         const errorElements = document.querySelectorAll('.error-message');
         const inputElements = document.querySelectorAll('.input-error');
@@ -815,12 +834,13 @@
         });
       }
       
+      // Initialize team tab
       function initializeTeamTab() {
         // Default to create team tab
         switchTeamTab('create');
         
         // Add first team member (current user)
-        const userEmail = document.getElementById('email')?.value || 'user@example.com';
+        const userEmail = document.getElementById('email').value;
         teamMembers = [{
           id: 'current-user',
           email: userEmail,
@@ -831,24 +851,24 @@
         renderTeamMembers();
       }
       
+      // Switch team tab
       function switchTeamTab(tab) {
         if (tab === 'create') {
-          createTeamTab.classList.add('active', 'border-blue-500', 'text-blue-400');
-          createTeamTab.classList.remove('text-gray-400');
-          joinTeamTab.classList.remove('active', 'border-blue-500', 'text-blue-400');
-          joinTeamTab.classList.add('text-gray-400');
-          createTeamForm.classList.remove('hidden');
-          joinTeamForm.classList.add('hidden');
+          createTeamBtn.classList.add('active');
+          joinTeamBtn.classList.remove('active');
+          teamTabContents[0].classList.remove('hidden');
+          teamTabContents[1].classList.add('hidden');
         } else {
-          joinTeamTab.classList.add('active', 'border-blue-500', 'text-blue-400');
-          joinTeamTab.classList.remove('text-gray-400');
-          createTeamTab.classList.remove('active', 'border-blue-500', 'text-blue-400');
-          createTeamTab.classList.add('text-gray-400');
-          joinTeamForm.classList.remove('hidden');
-          createTeamForm.classList.add('hidden');
+          joinTeamBtn.classList.add('active');
+          createTeamBtn.classList.remove('active');
+          teamTabContents[0].classList.add('hidden');
+          teamTabContents[1].classList.remove('hidden');
         }
+        
+        teamTab = tab;
       }
       
+      // Add team member
       function addTeamMember() {
         const email = prompt('Enter team member\'s email:');
         if (email && validateEmail(email)) {
@@ -865,19 +885,7 @@
         }
       }
       
-      function removeTeamMember(memberId) {
-        teamMembers = teamMembers.filter(member => member.id !== memberId);
-        renderTeamMembers();
-      }
-      
-      function updateMemberRole(memberId, role) {
-        const member = teamMembers.find(m => m.id === memberId);
-        if (member) {
-          member.role = role;
-          renderTeamMembers();
-        }
-      }
-      
+      // Render team members
       function renderTeamMembers() {
         if (!teamMembersList) return;
         
@@ -910,6 +918,22 @@
         `).join('');
       }
       
+      // Remove team member
+      function removeTeamMember(memberId) {
+        teamMembers = teamMembers.filter(member => member.id !== memberId);
+        renderTeamMembers();
+      }
+      
+      // Update member role
+      function updateMemberRole(memberId, role) {
+        const member = teamMembers.find(m => m.id === memberId);
+        if (member) {
+          member.role = role;
+          renderTeamMembers();
+        }
+      }
+      
+      // Paste from clipboard
       function pasteFromClipboard() {
         navigator.clipboard.readText()
           .then(text => {
@@ -922,39 +946,100 @@
           });
       }
       
-      function skipTeamSetup() {
-        if (confirm('Are you sure you want to skip team setup? You can set up your team later from the dashboard.')) {
-          updateStep(3);
+      // Complete onboarding
+      async function completeOnboarding() {
+        // Validate all steps before completing
+        if (!validateProfileStep()) {
+          showError('Please complete all required fields in the profile section.');
+          updateStep(1);
+          return;
+        }
+        
+        if (teamTab === 'create' && !validateTeamStep()) {
+          showError('Please complete all required fields in the team setup section.');
+          updateStep(2);
+          return;
+        }
+        
+        try {
+          // Show loading state
+          completeBtn.disabled = true;
+          completeBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Completing...';
+          
+          // Get form data
+          const formData = {
+            firstName: document.getElementById('firstName').value.trim(),
+            lastName: document.getElementById('lastName').value.trim(),
+            phone: `${countryCode.value}${phoneNumber.value.trim()}`,
+            marketingRole: marketingRole.value,
+            profileComplete: true,
+            onboardingComplete: true
+          };
+          
+          // Handle team data if creating a team
+          if (teamTab === 'create' && teamName.value.trim()) {
+            const teamData = {
+              name: teamName.value.trim(),
+              industry: teamIndustry.value,
+              members: [
+                {
+                  email: user.email,
+                  role: 'admin',
+                  status: 'active'
+                },
+                ...teamMembers.map(member => ({
+                  email: member.email,
+                  role: member.role,
+                  status: 'pending'
+                }))
+              ]
+            };
+            
+            // Create team
+            const team = TeamService.createTeam(teamData);
+            formData.teamId = team.id;
+            formData.teamRole = 'admin';
+          } else if (teamTab === 'join' && teamCodeInput.value.trim()) {
+            // Handle joining a team
+            formData.teamCode = teamCodeInput.value.trim();
+            // In a real app, you would validate the team code and add the user to the team
+          }
+          
+          // Update user profile
+          const updatedUser = { ...user, ...formData };
+          const users = JSON.parse(localStorage.getItem(DataModel.users) || '[]');
+          const userIndex = users.findIndex(u => u.id === user.id);
+          
+          if (userIndex !== -1) {
+            users[userIndex] = updatedUser;
+            localStorage.setItem(DataModel.users, JSON.stringify(users));
+            localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+          }
+          
+          // Mark onboarding as complete
+          localStorage.setItem('onboardingComplete', 'true');
+          
+          // Show success message
+          Swal.fire({
+            title: 'Onboarding Complete!',
+            text: 'Your profile has been set up successfully.',
+            icon: 'success',
+            confirmButtonColor: '#3b74ff',
+            confirmButtonText: 'Go to Dashboard'
+          }).then(() => {
+            // Redirect to dashboard
+            window.location.href = 'index.html';
+          });
+          
+        } catch (error) {
+          console.error('Error completing onboarding:', error);
+          showError('An error occurred while completing your setup. Please try again.');
+          completeBtn.disabled = false;
+          completeBtn.textContent = 'Complete Setup';
         }
       }
       
-      function completeOnboarding() {
-        // Prepare user data
-        const userData = {
-          profile: {
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            profileImage: document.getElementById('profileImage').src || null
-          },
-          team: {
-            members: teamMembers,
-            teamName: document.getElementById('teamName')?.value || null,
-            inviteCode: document.getElementById('teamCode')?.value || null
-          },
-          onboardingComplete: true,
-          lastUpdated: new Date().toISOString()
-        };
-        
-        // Save to localStorage (in a real app, this would be an API call)
-        localStorage.setItem('userData', JSON.stringify(userData));
-        
-        // Mark onboarding as complete
-        localStorage.setItem('onboardingComplete', 'true');
-        
-        // Redirect to dashboard
-        window.location.href = 'index.html';
-      }
-      
+      // Show error
       function showError(message) {
         Swal.fire({
           icon: 'error',

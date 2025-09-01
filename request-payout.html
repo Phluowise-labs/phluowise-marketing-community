@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Payout - Phluowise</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body { font-family: "Inter", sans-serif; background-color: #000; color: #e5e7eb; }
+    .glass { background: rgba(31, 41, 55, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+  </style>
+</head>
+<body class="bg-black">
+  <!-- Mobile Header -->
+  <header class="md:hidden flex items-center justify-between p-4 bg-gray-900 border-b border-gray-800">
+    <a href="transactions.html" class="text-gray-400 hover:text-white">
+      <i class="fas fa-arrow-left text-xl"></i>
+    </a>
+    <h1 class="text-xl font-bold">Request Payout</h1>
+    <div class="w-8"></div>
+  </header>
+
+  <!-- Sidebar -->
+  <aside class="hidden md:block fixed top-0 left-0 bg-gray-900 text-white p-4 z-40 w-64 min-h-screen">
+    <div class="flex items-center space-x-2 mb-8 pt-4">
+      <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+        <i class="fas fa-water text-white"></i>
+      </div>
+      <span class="text-xl font-bold">Phluowise</span>
+    </div>
+    <nav class="space-y-2">
+      <a href="index.html" class="flex items-center space-x-3 p-2 rounded-lg text-gray-300 hover:bg-gray-800">
+        <i class="fas fa-home w-5"></i><span>Dashboard</span>
+      </a>
+      <a href="leaderboard.html" class="flex items-center space-x-3 p-2 rounded-lg text-gray-300 hover:bg-gray-800">
+        <i class="fas fa-trophy w-5"></i><span>Leaderboard</span>
+      </a>
+      <a href="transactions.html" class="flex items-center space-x-3 p-2 rounded-lg bg-blue-900/30 text-blue-400">
+        <i class="fas fa-exchange-alt w-5"></i><span>Transactions</span>
+      </a>
+      <a href="profile.html" class="flex items-center space-x-3 p-2 rounded-lg text-gray-300 hover:bg-gray-800">
+        <i class="fas fa-user w-5"></i><span>Profile</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="md:ml-64 min-h-screen p-4 md:p-6">
+    <div class="max-w-2xl mx-auto">
+      <!-- Back Button -->
+      <div class="mb-6">
+        <a href="transactions.html" class="inline-flex items-center text-blue-400 hover:text-blue-300">
+          <i class="fas fa-arrow-left mr-2"></i>
+          <span>Back to Transactions</span>
+        </a>
+      </div>
+
+      <!-- Payout Request Form -->
+      <div class="glass p-6 rounded-xl mb-6">
+        <h2 class="text-xl font-bold mb-6">Request Payout</h2>
+        
+        <form id="payoutForm" class="space-y-6">
+          <!-- Amount -->
+          <div>
+            <label for="amount" class="block text-sm font-medium text-gray-300 mb-1">Amount to Withdraw</label>
+            <div class="relative mt-1">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center">
+                <span class="text-gray-400">$</span>
+              </div>
+              <input type="number" id="amount" name="amount" required
+                     class="bg-gray-800 border border-gray-700 text-white block w-full pl-7 pr-12 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                     placeholder="0.00" step="0.01" min="10">
+            </div>
+            <p class="mt-1 text-sm text-gray-400">Minimum withdrawal: $10.00</p>
+          </div>
+
+          <!-- Payment Method -->
+          <div>
+            <label class="block text-sm font-medium text-gray-300 mb-2">Payment Method</label>
+            <div class="space-y-3">
+              <!-- Mobile Money -->
+              <div class="relative">
+                <input class="sr-only peer" type="radio" name="paymentType" id="mobileMoney" value="mobile_money" checked>
+                <label for="mobileMoney" class="block p-4 border border-gray-700 rounded-lg cursor-pointer peer-checked:border-blue-500 peer-checked:bg-blue-900/20">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                      <i class="fas fa-mobile-alt text-blue-400 text-xl mr-3"></i>
+                      <div>
+                        <p class="font-medium">Mobile Money</p>
+                        <p class="text-sm text-gray-400">Receive funds directly to your mobile wallet</p>
+                      </div>
+                    </div>
+                    <i class="fas fa-check-circle text-blue-500 text-xl opacity-0 peer-checked:opacity-100"></i>
+                  </div>
+                </label>
+              </div>
+
+              <!-- Bank Transfer -->
+              <div class="relative">
+                <input class="sr-only peer" type="radio" name="paymentType" id="bankTransfer" value="bank_transfer">
+                <label for="bankTransfer" class="block p-4 border border-gray-700 rounded-lg cursor-pointer peer-checked:border-blue-500 peer-checked:bg-blue-900/20">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                      <i class="fas fa-university text-blue-400 text-xl mr-3"></i>
+                      <div>
+                        <p class="font-medium">Bank Transfer</p>
+                        <p class="text-sm text-gray-400">Transfer to your bank account</p>
+                      </div>
+                    </div>
+                    <i class="fas fa-check-circle text-blue-500 text-xl opacity-0 peer-checked:opacity-100"></i>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Details -->
+          <div id="paymentDetails">
+            <!-- Mobile Money Fields -->
+            <div id="mobileMoneyFields" class="space-y-4">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label for="mobileProvider" class="block text-sm font-medium text-gray-300 mb-1">Mobile Network</label>
+                  <select id="mobileProvider" name="mobileProvider" required
+                          class="bg-gray-800 border border-gray-700 text-white block w-full p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Select network</option>
+                    <option value="MTN">MTN Mobile Money</option>
+                    <option value="Airtel">Airtel Money</option>
+                    <option value="Vodafone">Vodafone Cash</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="mobileNumber" class="block text-sm font-medium text-gray-300 mb-1">Mobile Number</label>
+                  <input type="tel" id="mobileNumber" name="mobileNumber" required
+                         class="bg-gray-800 border border-gray-700 text-white block w-full p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                         placeholder="e.g., 256700123456">
+                </div>
+              </div>
+              <div>
+                <label for="accountName" class="block text-sm font-medium text-gray-300 mb-1">Account Name</label>
+                <input type="text" id="accountName" name="accountName" required
+                       class="bg-gray-800 border border-gray-700 text-white block w-full p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                       placeholder="Name as it appears on your account">
+              </div>
+            </div>
+
+            <!-- Bank Transfer Fields (initially hidden) -->
+            <div id="bankTransferFields" class="space-y-4 hidden">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label for="bankName" class="block text-sm font-medium text-gray-300 mb-1">Bank Name</label>
+                  <input type="text" id="bankName" name="bankName"
+                         class="bg-gray-800 border border-gray-700 text-white block w-full p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                         placeholder="e.g., Chase Bank">
+                </div>
+                <div>
+                  <label for="accountNumber" class="block text-sm font-medium text-gray-300 mb-1">Account Number</label>
+                  <input type="text" id="accountNumber" name="accountNumber"
+                         class="bg-gray-800 border border-gray-700 text-white block w-full p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                         placeholder="e.g., 1234567890">
+                </div>
+              </div>
+              <div>
+                <label for="accountNameBank" class="block text-sm font-medium text-gray-300 mb-1">Account Name</label>
+                <input type="text" id="accountNameBank" name="accountNameBank"
+                       class="bg-gray-800 border border-gray-700 text-white block w-full p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                       placeholder="Name as it appears on your bank account">
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="pt-4">
+            <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors">
+              Request Payout
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Toggle between payment methods
+      const paymentTypeRadios = document.querySelectorAll('input[name="paymentType"]');
+      const mobileMoneyFields = document.getElementById('mobileMoneyFields');
+      const bankTransferFields = document.getElementById('bankTransferFields');
+
+      paymentTypeRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+          if (this.value === 'mobile_money') {
+            mobileMoneyFields.classList.remove('hidden');
+            bankTransferFields.classList.add('hidden');
+            // Make mobile money fields required
+            document.getElementById('mobileProvider').required = true;
+            document.getElementById('mobileNumber').required = true;
+            document.getElementById('accountName').required = true;
+            // Make bank transfer fields not required
+            document.getElementById('bankName').required = false;
+            document.getElementById('accountNumber').required = false;
+            document.getElementById('accountNameBank').required = false;
+          } else {
+            mobileMoneyFields.classList.add('hidden');
+            bankTransferFields.classList.remove('hidden');
+            // Make bank transfer fields required
+            document.getElementById('bankName').required = true;
+            document.getElementById('accountNumber').required = true;
+            document.getElementById('accountNameBank').required = true;
+            // Make mobile money fields not required
+            document.getElementById('mobileProvider').required = false;
+            document.getElementById('mobileNumber').required = false;
+            document.getElementById('accountName').required = false;
+          }
+        });
+      });
+
+      // Form submission
+      const payoutForm = document.getElementById('payoutForm');
+      if (payoutForm) {
+        payoutForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          // Get form data
+          const formData = new FormData(payoutForm);
+          const amount = parseFloat(formData.get('amount'));
+          const paymentType = formData.get('paymentType');
+          
+          // Validate minimum amount
+          if (amount < 10) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Amount too low',
+              text: 'Minimum withdrawal amount is $10.00',
+              confirmButtonColor: '#3b82f6',
+            });
+            return;
+          }
+
+          // Create transaction data
+          const transaction = {
+            id: Date.now(),
+            date: new Date().toISOString().split('T')[0],
+            time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+            type: 'payout_request',
+            description: 'Payout Requested',
+            details: paymentType === 'mobile_money' 
+              ? `To: ${formData.get('mobileProvider')} •••• ${formData.get('mobileNumber').slice(-4)}`
+              : `To: ${formData.get('bankName')} •••• ${formData.get('accountNumber').slice(-4)}`,
+            amount: amount.toFixed(2),
+            status: 'pending',
+            statusText: 'Processing',
+            icon: 'clock',
+            iconColor: 'yellow',
+            amountColor: 'gray',
+            statusColor: 'yellow'
+          };
+
+          // Save to localStorage (in a real app, this would be an API call)
+          const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+          transactions.unshift(transaction);
+          localStorage.setItem('transactions', JSON.stringify(transactions));
+
+          // Show success message
+          Swal.fire({
+            icon: 'success',
+            title: 'Payout Requested!',
+            text: 'Your payout request has been submitted and is being processed.',
+            confirmButtonColor: '#3b82f6',
+          }).then(() => {
+            // Redirect to transactions page
+            window.location.href = 'transactions.html';
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>

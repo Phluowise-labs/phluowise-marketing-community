@@ -115,27 +115,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
       </div>
 
-      <!-- Stats Cards -->
+      <!-- Stats and Action Card -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <div class="glass p-4 rounded-xl">
-          <p class="text-sm text-gray-400">Total Balance</p>
+          <p class="text-sm text-gray-400">Total Earnings</p>
           <p class="text-2xl font-bold">$3,450.00</p>
-          <p class="text-sm text-green-400 mt-1">+$1,200.00 (53.3%)</p>
+          <p class="text-sm text-green-400 mt-1">All time earnings</p>
         </div>
         <div class="glass p-4 rounded-xl">
           <p class="text-sm text-gray-400">This Month</p>
           <p class="text-2xl font-bold">$1,200.00</p>
-          <p class="text-sm text-green-400 mt-1">+$350.00 (41.2%)</p>
+          <p class="text-sm text-blue-400 mt-1">Earned in August</p>
         </div>
         <div class="glass p-4 rounded-xl">
-          <p class="text-sm text-gray-400">Withdrawals</p>
+          <p class="text-sm text-gray-400">Paid Out</p>
           <p class="text-2xl font-bold">$2,050.00</p>
-          <p class="text-sm text-green-400 mt-1">2 transactions</p>
+          <p class="text-sm text-green-400 mt-1">Total paid to you</p>
         </div>
-        <div class="glass p-4 rounded-xl">
-          <p class="text-sm text-gray-400">Pending</p>
-          <p class="text-2xl font-bold">$1,500.00</p>
-          <p class="text-sm text-yellow-400 mt-1">1 transaction</p>
+        <div class="glass p-4 rounded-xl bg-gradient-to-br from-blue-900/30 to-blue-900/10 border border-blue-800/30">
+          <p class="text-sm text-blue-300">Ready to cash out?</p>
+          <p class="text-2xl font-bold text-white">Request Payout</p>
+          <a href="request-payout.html" class="mt-2 inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+            Get Paid <i class="fas fa-arrow-right ml-1"></i>
+          </a>
         </div>
       </div>
 
@@ -152,86 +154,107 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <th class="px-6 py-3 text-right text-xs font-medium text-gray-400 uppercase tracking-wider">Action</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-gray-800">
-              <!-- Transaction 1 -->
-              <tr class="hover:bg-gray-800/50">
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-300">2025-08-28</div>
-                  <div class="text-xs text-gray-500">2:45 PM</div>
-                </td>
-                <td class="px-6 py-4">
-                  <div class="text-sm font-medium">Withdrawal</div>
-                  <div class="text-xs text-gray-400">To: Chase Bank •••• 4567</div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-400">
-                  -$1,200.00
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-900/30 text-green-400">
-                    Completed
-                  </span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <a href="transaction-details.html" class="text-blue-400 hover:text-blue-300">View</a>
-                </td>
-              </tr>
-              
-              <!-- Transaction 2 -->
-              <tr class="hover:bg-gray-800/50">
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-300">2025-08-21</div>
-                  <div class="text-xs text-gray-500">11:20 AM</div>
-                </td>
-                <td class="px-6 py-4">
-                  <div class="text-sm font-medium">Withdrawal</div>
-                  <div class="text-xs text-gray-400">To: Chase Bank •••• 4567</div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-400">
-                  -$850.00
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-900/30 text-green-400">
-                    Completed
-                  </span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <a href="transaction-details.html" class="text-blue-400 hover:text-blue-300">View</a>
-                </td>
-              </tr>
-              
-              <!-- Transaction 3 -->
-              <tr class="hover:bg-gray-800/50">
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-300">2025-08-14</div>
-                  <div class="text-xs text-gray-500">3:15 PM</div>
-                </td>
-                <td class="px-6 py-4">
-                  <div class="text-sm font-medium">Withdrawal</div>
-                  <div class="text-xs text-gray-400">To: Chase Bank •••• 4567</div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-yellow-400">
-                  -$1,500.00
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-900/30 text-yellow-400">
-                    Pending
-                  </span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <a href="transaction-details.html" class="text-blue-400 hover:text-blue-300">View</a>
-                </td>
-              </tr>
-              
-              <!-- More transactions would be dynamically loaded here -->
-              
+            <tbody class="divide-y divide-gray-800" id="transactionsBody">
+              <!-- Transactions will be loaded here dynamically -->
             </tbody>
+            <script>
+              // Wait for the DOM to be fully loaded
+              document.addEventListener('DOMContentLoaded', function() {
+                // Load transactions from localStorage or use sample data if none exists
+                let transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+                
+                // Add sample data if no transactions exist
+                if (transactions.length === 0) {
+                  transactions = [
+                    {
+                      id: 1,
+                      date: '2025-08-28',
+                      time: '2:45 PM',
+                      type: 'payment_completed',
+                      description: 'Payment Completed',
+                      details: 'To: MTN Mobile Money •••• 3456',
+                      amount: '1,200.00',
+                      status: 'completed',
+                      statusText: 'Completed on Aug 29, 2025',
+                      icon: 'check',
+                      iconColor: 'green',
+                      amountColor: 'green',
+                      statusColor: 'green'
+                    }
+                  ];
+                }
+
+                const tbody = document.getElementById('transactionsBody');
+                const noTransactionsEl = document.getElementById('noTransactions');
+                
+                if (transactions.length === 0) {
+                  noTransactionsEl.classList.remove('hidden');
+                } else {
+                  // Clear existing rows
+                  tbody.innerHTML = '';
+                  
+                  // Sort by date (newest first)
+                  transactions.sort((a, b) => new Date(b.date + ' ' + b.time) - new Date(a.date + ' ' + a.time));
+                  
+                  transactions.forEach(tx => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-gray-800/50';
+                    tr.innerHTML = `
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-300">${tx.date}</div>
+                        <div class="text-xs text-gray-500">${tx.time}</div>
+                      </td>
+                      <td class="px-6 py-4">
+                        <div class="flex items-center">
+                          <div class="flex-shrink-0 h-10 w-10 rounded-full bg-${tx.iconColor || 'blue'}-500/10 flex items-center justify-center mr-3">
+                            <i class="fas fa-${tx.icon || 'exchange-alt'} text-${tx.iconColor || 'blue'}-400"></i>
+                          </div>
+                          <div>
+                            <div class="text-sm font-medium">${tx.description}</div>
+                            <div class="text-xs text-gray-400">${tx.details}</div>
+                            <div class="text-xs text-${tx.statusColor || 'gray'}-400 mt-1">
+                              <i class="fas fa-${tx.status === 'completed' ? 'check-circle' : 'info-circle'} mr-1"></i> ${tx.statusText || 'Processing'}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-${tx.amountColor || 'gray'}-400">
+                        ${tx.amount.startsWith('$') ? '' : '$'}${tx.amount}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 py-1 text-xs font-medium rounded-full bg-${tx.statusColor || 'yellow'}-900/30 text-${tx.statusColor || 'yellow'}-400">
+                          ${tx.status ? (tx.status.charAt(0).toUpperCase() + tx.status.slice(1)) : 'Pending'}
+                        </span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <a href="transaction-details.html?id=${tx.id}" class="text-blue-400 hover:text-blue-300">View</a>
+                      </td>
+                    `;
+                    tbody.appendChild(tr);
+                  });
+                  
+                  // Update pagination info
+                  const paginationInfo = document.querySelector('.pagination-info');
+                  if (paginationInfo) {
+                    paginationInfo.textContent = `Showing 1 to ${transactions.length} of ${transactions.length} results`;
+                  }
+                }
+              });
+            </script>
           </table>
+          <div id="noTransactions" class="text-center py-8 hidden">
+            <i class="fas fa-exchange-alt text-4xl text-gray-600 mb-3"></i>
+            <p class="text-gray-400">No transactions found</p>
+            <a href="request-payout.html" class="mt-4 inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
+              Request Your First Payout
+            </a>
+          </div>
         </div>
         
         <!-- Pagination -->
         <div class="mt-6 flex items-center justify-between">
           <div class="text-sm text-gray-400">
-            Showing <span class="font-medium">1</span> to <span class="font-medium">3</span> of <span class="font-medium">3</span> results
+            <span class="pagination-info">Loading transactions...</span>
           </div>
           <div class="flex space-x-2">
             <button class="px-3 py-1 rounded-md border border-gray-700 text-gray-400 hover:bg-gray-800" disabled aria-label="Previous page">

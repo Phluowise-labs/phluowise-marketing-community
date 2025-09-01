@@ -59,7 +59,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="form-container">
         <div class="text-center mb-8">
             <h1 class="text-3xl font-bold text-[#3b74ff] mb-2">Welcome Back</h1>
-            <p class="text-gray-400">Sign in to continue to Phluowise</p>
+            <p class="text-gray-400">Sign in to continue to Phluowise Marketing Community</p>
         </div>
 
         <form id="signinForm" class="space-y-6">
@@ -105,162 +105,156 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </form>
     </div>
 
-    <!-- Firebase SDKs -->
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-      import { 
-        getAuth, 
-        signInWithEmailAndPassword,
-        onAuthStateChanged
-      } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-
-      // Your web app's Firebase configuration
-      const firebaseConfig = {
-        // Add your Firebase config here
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_AUTH_DOMAIN",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_STORAGE_BUCKET",
-        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-        appId: "YOUR_APP_ID"
-      };
-
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-
+    <script src="js/app.js"></script>
+    <script>
       document.addEventListener('DOMContentLoaded', function() {
+        // Redirect to dashboard if already authenticated
+        if (Auth.isAuthenticated()) {
+          window.location.href = 'index.html';
+          return;
+        }
+
         const form = document.getElementById('signinForm');
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
         const emailError = document.getElementById('emailError');
         const passwordError = document.getElementById('passwordError');
         const togglePassword = document.getElementById('togglePassword');
-        const passwordToggleIcon = togglePassword.querySelector('i');
+        
         let isPasswordVisible = false;
 
-            // Toggle password visibility
-            togglePassword.addEventListener('click', function() {
-                isPasswordVisible = !isPasswordVisible;
-                passwordInput.type = isPasswordVisible ? 'text' : 'password';
-                passwordToggleIcon.className = isPasswordVisible ? 'far fa-eye' : 'far fa-eye-slash';
-                this.setAttribute('aria-label', isPasswordVisible ? 'Hide password' : 'Show password');
-            });
-
-            // Form validation
-            function validateEmail(email) {
-                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return re.test(String(email).toLowerCase());
-            }
-
-            emailInput.addEventListener('input', function() {
-                if (!validateEmail(this.value)) {
-                    emailError.classList.remove('hidden');
-                    this.classList.add('border-red-500');
-                } else {
-                    emailError.classList.add('hidden');
-                    this.classList.remove('border-red-500');
-                }
-            });
-
-            passwordInput.addEventListener('input', function() {
-                if (this.value.length < 8 && this.value.length > 0) {
-                    passwordError.classList.remove('hidden');
-                    this.classList.add('border-red-500');
-                } else {
-                    passwordError.classList.add('hidden');
-                    this.classList.remove('border-red-500');
-                }
-            });
-
-            // Form submission
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const email = emailInput.value.trim();
-                const password = passwordInput.value.trim();
-                let isValid = true;
-
-                // Reset errors
-                emailError.classList.add('hidden');
-                passwordError.classList.add('hidden');
-                emailInput.classList.remove('border-red-500');
-                passwordInput.classList.remove('border-red-500');
-
-                // Validate email
-                if (!email) {
-                    emailError.textContent = 'Email is required';
-                    emailError.classList.remove('hidden');
-                    emailInput.classList.add('border-red-500');
-                    isValid = false;
-                } else if (!validateEmail(email)) {
-                    emailError.textContent = 'Please enter a valid email address';
-                    emailError.classList.remove('hidden');
-                    emailInput.classList.add('border-red-500');
-                    isValid = false;
-                }
-
-                // Validate password
-                if (!password) {
-                    passwordError.textContent = 'Password is required';
-                    passwordError.classList.remove('hidden');
-                    passwordInput.classList.add('border-red-500');
-                    isValid = false;
-                } else if (password.length < 8) {
-                    passwordError.textContent = 'Password must be at least 8 characters';
-                    passwordError.classList.remove('hidden');
-                    passwordInput.classList.add('border-red-500');
-                    isValid = false;
-                }
-
-                if (isValid) {
-                    const submitBtn = this.querySelector('button[type="submit"]');
-                    const originalText = submitBtn.innerHTML;
-                    submitBtn.disabled = true;
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Signing in...';
-
-                    // Sign in with Firebase
-                    signInWithEmailAndPassword(auth, email, password)
-                        .then((userCredential) => {
-                            // Signed in successfully
-                            const user = userCredential.user;
-                            window.location.href = 'index.html';
-                        })
-                        .catch((error) => {
-                            // Handle errors
-                            const errorCode = error.code;
-                            let errorMessage = 'Failed to sign in. Please try again.';
-                            
-                            if (errorCode === 'auth/user-not-found' || errorCode === 'auth/wrong-password') {
-                                errorMessage = 'Invalid email or password';
-                                emailInput.classList.add('border-red-500');
-                                passwordInput.classList.add('border-red-500');
-                            } else if (errorCode === 'auth/too-many-requests') {
-                                errorMessage = 'Too many failed attempts. Please try again later.';
-                            }
-                            
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Sign In Failed',
-                                text: errorMessage,
-                                confirmButtonColor: '#3b74ff',
-                            });
-                        })
-                        .finally(() => {
-                            submitBtn.disabled = false;
-                            submitBtn.innerHTML = originalText;
-                        });
-                }
-            });
+        // Toggle password visibility
+        togglePassword.addEventListener('click', function() {
+          isPasswordVisible = !isPasswordVisible;
+          passwordInput.type = isPasswordVisible ? 'text' : 'password';
+          this.innerHTML = isPasswordVisible ? 
+            '<i class="fas fa-eye-slash"></i>' : 
+            '<i class="fas fa-eye"></i>';
         });
 
-        // Check if user is already signed in
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // User is signed in, redirect to dashboard
-                window.location.href = 'index.html';
+        // Validate email format
+        function validateEmail(email) {
+          const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          return re.test(String(email).toLowerCase());
+        }
+
+        // Show error message
+        function showError(element, message) {
+          element.textContent = message;
+          element.classList.remove('hidden');
+          setTimeout(() => {
+            element.classList.add('hidden');
+          }, 3000);
+        }
+
+        // Handle form submission
+        form.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          
+          const email = emailInput.value.trim();
+          const password = passwordInput.value.trim();
+          const rememberMe = document.getElementById('remember').checked;
+          let isValid = true;
+
+          // Reset errors
+          emailError.classList.add('hidden');
+          passwordError.classList.add('hidden');
+
+          // Validate email
+          if (!email) {
+            showError(emailError, 'Email is required');
+            isValid = false;
+          } else if (!validateEmail(email)) {
+            showError(emailError, 'Please enter a valid email address');
+            isValid = false;
+          }
+
+          // Validate password
+          if (!password) {
+            showError(passwordError, 'Password is required');
+            isValid = false;
+          } else if (password.length < 8) {
+            showError(passwordError, 'Password must be at least 8 characters');
+            isValid = false;
+          }
+
+          if (!isValid) return;
+
+          // Show loading state
+          const submitBtn = form.querySelector('button[type="submit"]');
+          const originalBtnText = submitBtn.innerHTML;
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Signing in...';
+
+          try {
+            // Sign in using our Auth service
+            const { user, session } = await Auth.login(email, password);
+            
+            // Update last login time
+            const users = JSON.parse(localStorage.getItem('phluowise_users') || '[]');
+            const userIndex = users.findIndex(u => u.id === user.id);
+            if (userIndex !== -1) {
+              users[userIndex].lastLogin = new Date().toISOString();
+              localStorage.setItem('phluowise_users', JSON.stringify(users));
             }
+            
+            // Show success message
+            await Swal.fire({
+              title: 'Welcome Back!',
+              text: `Welcome back, ${user.firstName}!`,
+              icon: 'success',
+              confirmButtonColor: '#3b74ff',
+              confirmButtonText: 'Continue to Dashboard'
+            });
+            
+            // Redirect to dashboard
+            window.location.href = 'index.html';
+          } catch (error) {
+            console.error('Sign in error:', error);
+            
+            // Show error message
+            await Swal.fire({
+              title: 'Sign In Failed',
+              text: error.message || 'Invalid email or password',
+              icon: 'error',
+              confirmButtonColor: '#3b74ff',
+              confirmButtonText: 'OK'
+            });
+          } finally {
+            // Reset button state
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+          }
         });
+
+        // Handle forgot password
+        document.getElementById('forgotPassword').addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const email = emailInput.value.trim();
+          
+          if (!email) {
+            showError(emailError, 'Please enter your email address first');
+            emailInput.focus();
+            return;
+          }
+          
+          if (!validateEmail(email)) {
+            showError(emailError, 'Please enter a valid email address');
+            emailInput.focus();
+            return;
+          }
+          
+          // For demo purposes, just show a message
+          Swal.fire({
+            title: 'Password Reset',
+            text: 'If an account exists with this email, you will receive a password reset link.',
+            icon: 'info',
+            confirmButtonColor: '#3b74ff',
+            confirmButtonText: 'OK'
+          });
+        });
+      });
     </script>
 </body>
 </html>

@@ -408,37 +408,54 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script src="js/app.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Load user data from localStorage
-            const userData = JSON.parse(localStorage.getItem('userData'));
+            // Check if user is authenticated
+            if (!Auth.isAuthenticated()) {
+                window.location.href = 'signin.html';
+                return;
+            }
+
+            // Get current user data
+            const user = Auth.getCurrentUser();
+            if (!user) {
+                window.location.href = 'signin.html';
+                return;
+            }
             
             // Get DOM elements
             const profileImage = document.getElementById('profileImage');
             const defaultAvatar = document.getElementById('defaultAvatar');
             const imageUpload = document.getElementById('imageUpload');
             const changeImageBtn = document.getElementById('changeImageBtn');
+            const userName = document.getElementById('userName');
+            const userEmail = document.getElementById('userEmail');
+            const userPoints = document.getElementById('userPoints');
+            const userRank = document.getElementById('userRank');
             
-            if (userData && userData.profile) {
-                // Update profile picture if available
-                if (userData.profile.profileImage) {
-                    profileImage.src = userData.profile.profileImage;
-                    profileImage.classList.remove('hidden');
-                    defaultAvatar.classList.add('hidden');
-                }
+            // Update profile picture if available
+            if (user.profileImage) {
+                profileImage.src = user.profileImage;
+                profileImage.classList.remove('hidden');
+                defaultAvatar.classList.add('hidden');
+            }
+            
+            // Update form fields
+            const form = document.getElementById('profileForm');
+            if (form) {
+                const firstNameInput = form.querySelector('input[name="firstName"]');
+                const lastNameInput = form.querySelector('input[name="lastName"]');
+                const emailInput = form.querySelector('input[name="email"]');
+                const phoneInput = form.querySelector('input[name="phone"]');
                 
-                // Update form fields
-                const form = document.getElementById('profileForm');
-                if (form) {
-                    const emailInput = form.querySelector('input[name="email"]');
-                    const phoneInput = form.querySelector('input[name="phone"]');
-                    
-                    if (emailInput && userData.profile.email) {
-                        emailInput.value = userData.profile.email;
-                    }
-                    
-                    if (phoneInput && userData.profile.phone) {
-                        phoneInput.value = userData.profile.phone;
-                    }
-                }
+                if (firstNameInput) firstNameInput.value = user.firstName || '';
+                if (lastNameInput) lastNameInput.value = user.lastName || '';
+                if (emailInput) emailInput.value = user.email || '';
+                if (phoneInput) phoneInput.value = user.phone || '';
+                
+                // Update user info in the header
+                if (userName) userName.textContent = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'User';
+                if (userEmail) userEmail.textContent = user.email || '';
+                if (userPoints) userPoints.textContent = user.points || '0';
+                if (userRank) userRank.textContent = user.rank || 'Newbie';
             }
             
             // Handle change image button click
@@ -459,43 +476,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             profileImage.classList.remove('hidden');
                             defaultAvatar.classList.add('hidden');
                             
-                            // Update user data in localStorage
-                            const userData = JSON.parse(localStorage.getItem('userData')) || {};
-                            userData.profile = userData.profile || {};
-                            userData.profile.profileImage = event.target.result;
-                            localStorage.setItem('userData', JSON.stringify(userData));
-                            
-                            // Show success message
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Success!',
-                                text: 'Profile picture updated successfully',
-                                timer: 2000,
-                                showConfirmButton: false
-                            });
+                            // Update user's profile image in the Auth service
+                            const user = Auth.getCurrentUser();
+                            if (user) {
+                                user.profileImage = event.target.result;
+                                Auth.updateUser(user);
+                                
+                                // Show success message
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success!',
+                                    text: 'Profile picture updated successfully',
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                            }
                         };
                         reader.readAsDataURL(file);
                     }
                 });
-            }
-            
-            // Update user name in the header
-            const userName = document.getElementById('userName');
-            if (userName && userData && userData.profile) {
-                const email = userData.profile.email || '';
-                userName.textContent = email.split('@')[0];
-            }
-            
-            // Update user stats if they exist
-            const userPoints = document.getElementById('userPoints');
-            const userRank = document.getElementById('userRank');
-            
-            if (userPoints && userData && userData.profile) {
-                userPoints.textContent = userData.profile.points || '0';
-            }
-            
-            if (userRank && userData && userData.profile) {
-                userRank.textContent = userData.profile.rank || 'Newbie';
             }
             
             // Initialize form elements

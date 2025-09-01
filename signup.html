@@ -72,7 +72,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="form-container">
         <div class="text-center mb-8">
             <h1 class="text-3xl font-bold text-[#3b74ff] mb-2">Create an Account</h1>
-            <p class="text-gray-400">Join Phluowise and start your journey</p>
+            <p class="text-gray-400">Join Phluowise Marketing Community and start your journey</p>
         </div>
 
         <form id="signupForm" class="space-y-6">
@@ -182,170 +182,147 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             const specialReq = document.getElementById('specialReq');
 
             // Toggle password visibility
-            togglePasswordBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const input = this.parentElement.querySelector('input');
-                    const icon = this.querySelector('i');
-                    const isPassword = input.type === 'password';
-                    
-                    input.type = isPassword ? 'text' : 'password';
-                    icon.className = isPassword ? 'far fa-eye' : 'far fa-eye-slash';
-                    this.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
-                });
+            togglePassword.addEventListener('click', function() {
+                const isPasswordVisible = passwordInput.type === 'password';
+                passwordInput.type = isPasswordVisible ? 'text' : 'password';
+                this.innerHTML = isPasswordVisible ? 
+                    '<i class="fas fa-eye"></i>' : 
+                    '<i class="fas fa-eye-slash"></i>';
             });
 
-            // Password strength indicator
-            passwordInput.addEventListener('input', function() {
-                const password = this.value;
-                let strength = 0;
-                const requirements = {
-                    length: password.length >= 8,
-                    uppercase: /[A-Z]/.test(password),
-                    number: /[0-9]/.test(password),
-                    special: /[^A-Za-z0-9]/.test(password)
-                };
-
-                // Update requirements UI
-                lengthReq.className = requirements.length ? 'text-green-400' : 'text-gray-500';
-                uppercaseReq.className = requirements.uppercase ? 'text-green-400' : 'text-gray-500';
-                numberReq.className = requirements.number ? 'text-green-400' : 'text-gray-500';
-                specialReq.className = requirements.special ? 'text-green-400' : 'text-gray-500';
-
-                // Calculate strength
-                strength += requirements.length ? 25 : 0;
-                strength += requirements.uppercase ? 25 : 0;
-                strength += requirements.number ? 25 : 0;
-                strength += requirements.special ? 25 : 0;
-
-                // Update strength bar
-                passwordStrengthBar.style.width = `${strength}%`;
-                if (strength < 50) {
-                    passwordStrengthBar.style.backgroundColor = '#ef4444'; // red
-                } else if (strength < 75) {
-                    passwordStrengthBar.style.backgroundColor = '#f59e0b'; // amber
-                } else {
-                    passwordStrengthBar.style.backgroundColor = '#10b981'; // green
-                }
+            // Toggle confirm password visibility
+            toggleConfirmPassword.addEventListener('click', function() {
+                const isConfirmPasswordVisible = confirmPasswordInput.type === 'password';
+                confirmPasswordInput.type = isConfirmPasswordVisible ? 'text' : 'password';
+                this.innerHTML = isConfirmPasswordVisible ? 
+                    '<i class="fas fa-eye"></i>' : 
+                    '<i class="fas fa-eye-slash"></i>';
             });
 
-            // Form validation
+            // Validate email format
             function validateEmail(email) {
                 const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 return re.test(String(email).toLowerCase());
             }
 
-            function validatePassword(password) {
-                const requirements = {
-                    length: password.length >= 8,
-                    uppercase: /[A-Z]/.test(password),
-                    number: /[0-9]/.test(password),
-                    special: /[^A-Za-z0-9]/.test(password)
-                };
-                return Object.values(requirements).every(Boolean);
+            // Show error message
+            function showError(element, message) {
+                element.textContent = message;
+                element.classList.remove('hidden');
+                setTimeout(() => {
+                    element.classList.add('hidden');
+                }, 3000);
             }
 
             // Form submission
-            form.addEventListener('submit', function(e) {
+            form.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
-                const firstName = firstNameInput.value.trim();
-                const lastName = lastNameInput.value.trim();
-                const email = emailInput.value.trim();
-                const password = passwordInput.value;
-                const confirmPassword = confirmPasswordInput.value;
-                let isValid = true;
-
                 // Reset errors
                 document.querySelectorAll('[id$="Error"]').forEach(el => el.classList.add('hidden'));
-                [firstNameInput, lastNameInput, emailInput, passwordInput, confirmPasswordInput].forEach(
-                    input => input.classList.remove('border-red-500')
-                );
+                
+                // Get form values
+                const firstName = document.getElementById('firstName').value.trim();
+                const lastName = document.getElementById('lastName').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const termsAccepted = document.getElementById('terms').checked;
+                
+                // Validation
+                let isValid = true;
 
                 // Validate first name
                 if (!firstName) {
-                    document.getElementById('firstNameError').textContent = 'First name is required';
-                    document.getElementById('firstNameError').classList.remove('hidden');
-                    firstNameInput.classList.add('border-red-500');
+                    showError(document.getElementById('firstNameError'), 'First name is required');
                     isValid = false;
                 }
-
+                
                 // Validate last name
                 if (!lastName) {
-                    document.getElementById('lastNameError').textContent = 'Last name is required';
-                    document.getElementById('lastNameError').classList.remove('hidden');
-                    lastNameInput.classList.add('border-red-500');
+                    showError(document.getElementById('lastNameError'), 'Last name is required');
                     isValid = false;
                 }
-
+                
                 // Validate email
                 if (!email) {
-                    document.getElementById('emailError').textContent = 'Email is required';
-                    document.getElementById('emailError').classList.remove('hidden');
-                    emailInput.classList.add('border-red-500');
+                    showError(document.getElementById('emailError'), 'Email is required');
                     isValid = false;
                 } else if (!validateEmail(email)) {
-                    document.getElementById('emailError').textContent = 'Please enter a valid email address';
-                    document.getElementById('emailError').classList.remove('hidden');
-                    emailInput.classList.add('border-red-500');
+                    showError(document.getElementById('emailError'), 'Please enter a valid email address');
                     isValid = false;
                 }
-
+                
                 // Validate password
                 if (!password) {
-                    document.getElementById('passwordError').textContent = 'Password is required';
-                    document.getElementById('passwordError').classList.remove('hidden');
-                    passwordInput.classList.add('border-red-500');
+                    showError(document.getElementById('passwordError'), 'Password is required');
                     isValid = false;
-                } else if (!validatePassword(password)) {
-                    document.getElementById('passwordError').textContent = 'Password does not meet requirements';
-                    document.getElementById('passwordError').classList.remove('hidden');
-                    passwordInput.classList.add('border-red-500');
+                } else if (password.length < 8) {
+                    showError(document.getElementById('passwordError'), 'Password must be at least 8 characters');
                     isValid = false;
                 }
-
+                
                 // Validate confirm password
                 if (password !== confirmPassword) {
-                    document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
-                    document.getElementById('confirmPasswordError').classList.remove('hidden');
-                    confirmPasswordInput.classList.add('border-red-500');
+                    showError(document.getElementById('confirmPasswordError'), 'Passwords do not match');
                     isValid = false;
                 }
-
+                
                 // Validate terms
-                if (!termsCheckbox.checked) {
+                if (!termsAccepted) {
                     document.getElementById('termsError').classList.remove('hidden');
-                    termsCheckbox.classList.add('border-red-500');
                     isValid = false;
                 }
-
-                if (isValid) {
-                    // Simulate API call
-                    const submitBtn = this.querySelector('button[type="submit"]');
-                    const originalText = submitBtn.innerHTML;
-                    submitBtn.disabled = true;
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Creating account...';
-
-                    // Simulate API call delay
-                    setTimeout(() => {
-                        // Redirect to onboarding page after successful signup
-                        // In a real app, you would store the user data in localStorage/session
-                        // and then redirect to onboarding
-                        const userData = {
-                            firstName: firstName,
-                            lastName: lastName,
-                            email: email
-                        };
-                        
-                        // Store user data temporarily for onboarding
-                        sessionStorage.setItem('newUserData', JSON.stringify(userData));
-                        
-                        // Redirect to onboarding
-                        window.location.href = 'onboarding.html';
-                        
-                        // Reset button state (in case of error)
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = originalText;
-                    }, 1500);
+                
+                if (!isValid) return;
+                
+                // Show loading state
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalBtnText = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Creating Account...';
+                
+                try {
+                    // Register user using Auth service
+                    const user = await Auth.register({
+                        firstName,
+                        lastName,
+                        email,
+                        password,
+                        // Get referral code from URL if present
+                        referralCode: new URLSearchParams(window.location.search).get('ref') || ''
+                    });
+                    
+                    // Auto-login after registration
+                    const { user: loggedInUser } = await Auth.login(email, password);
+                    
+                    // Show success message
+                    await Swal.fire({
+                        title: 'Account Created!',
+                        text: 'Your account has been created successfully.',
+                        icon: 'success',
+                        confirmButtonColor: '#3b74ff',
+                        confirmButtonText: 'Continue to Dashboard'
+                    });
+                    
+                    // Redirect to onboarding or dashboard
+                    window.location.href = 'onboarding.html';
+                    
+                } catch (error) {
+                    console.error('Registration error:', error);
+                    
+                    // Show error message
+                    await Swal.fire({
+                        title: 'Registration Failed',
+                        text: error.message || 'An error occurred during registration. Please try again.',
+                        icon: 'error',
+                        confirmButtonColor: '#3b74ff',
+                        confirmButtonText: 'OK'
+                    });
+                    
+                    // Reset form
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
                 }
             });
         });

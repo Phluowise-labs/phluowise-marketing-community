@@ -1,266 +1,542 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
-<head>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5G6C5PLV');</script>
-<!-- End Google Tag Manager -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leaderboard - Phluowise</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <style>
-    body { font-family: "Inter", sans-serif; background-color: #000; color: #e5e7eb; }
-    .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
-    .dashboard-card { border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.5rem; }
-    .sidebar { width: 16rem; min-height: 100vh; }
-    .main-content { margin-left: 16rem; }
-    @media (max-width: 768px) {
-      .sidebar { margin-left: -16rem; }
-      .sidebar.active { margin-left: 0; }
-      .main-content { margin-left: 0; }
-      .main-content.active { margin-left: 16rem; }
-    }
-  </style>
-</head>
-<body class="bg-black">
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5G6C5PLV"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
-  <!-- Mobile Header -->
-  <header class="md:hidden flex items-center justify-between p-4 bg-gray-900 border-b border-gray-800">
-    <button id="menuBtn" class="text-gray-400 hover:text-white">
-      <i class="fas fa-bars text-xl"></i>
-    </button>
-    <h1 class="text-xl font-bold">Leaderboard</h1>
-    <div class="w-8"></div>
-  </header>
-
-  <!-- Sidebar -->
-  <aside id="sidebar" class="sidebar fixed top-0 left-0 bg-gray-900 text-white p-4 z-40">
-    <div class="flex items-center justify-between mb-8 pt-4">
-      <div class="flex items-center space-x-2">
-        <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-          <i class="fas fa-water text-white"></i>
-        </div>
-        <span class="text-xl font-bold">Phluowise</span>
-      </div>
-      <button id="closeSidebar" class="md:hidden text-gray-400 hover:text-white">
-        <i class="fas fa-times"></i>
+  <head>
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-5G6C5PLV");
+    </script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaderboard - Phluowise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #000;
+        color: #e5e7eb;
+      }
+      .glass {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .dashboard-card {
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .sidebar {
+        width: 16rem;
+        min-height: 100vh;
+      }
+      .main-content {
+        margin-left: 16rem;
+      }
+      @media (max-width: 768px) {
+        .sidebar {
+          margin-left: -16rem;
+        }
+        .sidebar.active {
+          margin-left: 0;
+        }
+        .main-content {
+          margin-left: 0;
+        }
+        .main-content.active {
+          margin-left: 16rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-black">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-5G6C5PLV"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Mobile Header -->
+    <header
+      class="md:hidden flex items-center justify-between p-4 bg-gray-900 border-b border-gray-800"
+    >
+      <button id="menuBtn" class="text-gray-400 hover:text-white">
+        <i class="fas fa-bars text-xl"></i>
       </button>
-    </div>
-    <nav class="space-y-2">
-      <a href="index.html" class="flex items-center space-x-3 p-2 rounded-lg text-gray-300 hover:bg-gray-800">
-        <i class="fas fa-home w-5"></i><span>Dashboard</span>
-      </a>
-      <a href="leaderboard.html" class="flex items-center space-x-3 p-2 rounded-lg bg-blue-900/30 text-blue-400">
-        <i class="fas fa-trophy w-5"></i><span>Leaderboard</span>
-      </a>
-      <a href="#" class="flex items-center space-x-3 p-2 rounded-lg text-gray-300 hover:bg-gray-800">
-        <i class="fas fa-exchange-alt w-5"></i><span>Transactions</span>
-      </a>
-      <a href="profile.html" class="flex items-center space-x-3 p-2 rounded-lg text-gray-300 hover:bg-gray-800">
-        <i class="fas fa-user w-5"></i><span>Profile</span>
-      </a>
-    </nav>
-  </aside>
+      <h1 class="text-xl font-bold">Leaderboard</h1>
+      <div class="w-8"></div>
+    </header>
 
-  <!-- Main Content -->
-  <main id="mainContent" class="main-content min-h-screen p-4 md:p-6">
-    <div class="max-w-6xl mx-auto">
-      <!-- Header -->
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-        <div>
-          <h1 class="text-2xl md:text-3xl font-bold">Team Leaderboard</h1>
-          <p class="text-gray-400">Top performing teams and their progress</p>
+    <!-- Sidebar -->
+    <aside
+      id="sidebar"
+      class="sidebar fixed top-0 left-0 bg-gray-900 text-white p-4 z-40"
+    >
+      <div class="flex items-center justify-between mb-8 pt-4">
+        <div class="flex items-center space-x-2">
+          <div
+            class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center"
+          >
+            <i class="fas fa-water text-white"></i>
+          </div>
+          <span class="text-xl font-bold">Phluowise</span>
         </div>
-        <div class="mt-4 md:mt-0">
-          <select class="bg-gray-800 border border-gray-700 text-white text-sm rounded-lg p-2">
-            <option>This Week</option>
-            <option>Last Week</option>
-            <option>This Month</option>
-          </select>
+        <button
+          id="closeSidebar"
+          class="md:hidden text-gray-400 hover:text-white"
+        >
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <nav class="space-y-2">
+        <a
+          href="index.html"
+          class="flex items-center space-x-3 p-2 rounded-lg text-gray-300 hover:bg-gray-800"
+        >
+          <i class="fas fa-home w-5"></i><span>Dashboard</span>
+        </a>
+        <a
+          href="leaderboard.html"
+          class="flex items-center space-x-3 p-2 rounded-lg bg-blue-900/30 text-blue-400"
+        >
+          <i class="fas fa-trophy w-5"></i><span>Leaderboard</span>
+        </a>
+        <a
+          href="#"
+          class="flex items-center space-x-3 p-2 rounded-lg text-gray-300 hover:bg-gray-800"
+        >
+          <i class="fas fa-exchange-alt w-5"></i><span>Transactions</span>
+        </a>
+        <a
+          href="profile.html"
+          class="flex items-center space-x-3 p-2 rounded-lg text-gray-300 hover:bg-gray-800"
+        >
+          <i class="fas fa-user w-5"></i><span>Profile</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main id="mainContent" class="main-content min-h-screen p-4 md:p-6">
+      <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between mb-6"
+        >
+          <div>
+            <h1 class="text-2xl md:text-3xl font-bold">Team Leaderboard</h1>
+            <p class="text-gray-400">Top performing teams and their progress</p>
+          </div>
+          <div class="mt-4 md:mt-0">
+            <select
+              id="timeFilter"
+              class="bg-gray-800 border border-gray-700 text-white text-sm rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="week">This Week</option>
+              <option value="last-week">Last Week</option>
+              <option value="month">This Month</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div class="glass p-4 rounded-xl">
+            <p class="text-sm text-gray-400">Total Teams</p>
+            <p class="text-2xl font-bold">1,248</p>
+            <p class="text-sm text-green-400 mt-1">▲ 12.5% from last week</p>
+          </div>
+          <div class="glass p-4 rounded-xl">
+            <p class="text-sm text-gray-400">Active This Week</p>
+            <p class="text-2xl font-bold">843</p>
+            <p class="text-sm text-green-400 mt-1">▲ 8.2% from last week</p>
+          </div>
+          <div class="glass p-4 rounded-xl">
+            <p class="text-sm text-gray-400">Total Points</p>
+            <p class="text-2xl font-bold">2.4M</p>
+            <p class="text-sm text-green-400 mt-1">▲ 15.3% from last week</p>
+          </div>
+          <div class="glass p-4 rounded-xl">
+            <p class="text-sm text-gray-400">Avg. Team Size</p>
+            <p class="text-2xl font-bold">4.2</p>
+            <p class="text-sm text-gray-400 mt-1">No change</p>
+          </div>
+        </div>
+
+        <!-- Leaderboard Table -->
+        <div class="glass p-6 rounded-xl">
+          <div class="overflow-x-auto">
+            <table
+              id="leaderboardTable"
+              class="min-w-full divide-y divide-gray-700"
+            >
+              <thead>
+                <tr>
+                  <th
+                    class="px-6 py-3 text-left text-xs text-gray-400 uppercase"
+                  >
+                    Rank
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs text-gray-400 uppercase"
+                  >
+                    Team
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs text-gray-400 uppercase"
+                  >
+                    Points
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs text-gray-400 uppercase"
+                  >
+                    Companies Referred
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs text-gray-400 uppercase"
+                  >
+                    Weekly Change
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="leaderboardBody" class="divide-y divide-gray-800">
+                <tr>
+                  <td colspan="5" class="text-center py-4">Loading leaderboard data...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
+    </main>
 
-      <!-- Stats Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <div class="glass p-4 rounded-xl">
-          <p class="text-sm text-gray-400">Total Teams</p>
-          <p class="text-2xl font-bold">1,248</p>
-          <p class="text-sm text-green-400 mt-1">▲ 12.5% from last week</p>
-        </div>
-        <div class="glass p-4 rounded-xl">
-          <p class="text-sm text-gray-400">Active This Week</p>
-          <p class="text-2xl font-bold">843</p>
-          <p class="text-sm text-green-400 mt-1">▲ 8.2% from last week</p>
-        </div>
-        <div class="glass p-4 rounded-xl">
-          <p class="text-sm text-gray-400">Total Points</p>
-          <p class="text-2xl font-bold">2.4M</p>
-          <p class="text-sm text-green-400 mt-1">▲ 15.3% from last week</p>
-        </div>
-        <div class="glass p-4 rounded-xl">
-          <p class="text-sm text-gray-400">Avg. Team Size</p>
-          <p class="text-2xl font-bold">4.2</p>
-          <p class="text-sm text-gray-400 mt-1">No change</p>
-        </div>
-      </div>
+    <script src="js/app.js"></script>
+    <script>
+      // Check authentication and initialize page
+      document.addEventListener("DOMContentLoaded", function () {
+        // Check if user is authenticated
+        const user = Auth.getCurrentUser();
+        if (!user) {
+          window.location.href = "signin.html";
+          return;
+        }
 
-      <!-- Leaderboard Table -->
-      <div class="glass p-6 rounded-xl">
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-700">
-            <thead>
-              <tr>
-                <th class="px-6 py-3 text-left text-xs text-gray-400 uppercase">Rank</th>
-                <th class="px-6 py-3 text-left text-xs text-gray-400 uppercase">Team</th>
-                <th class="px-6 py-3 text-left text-xs text-gray-400 uppercase">Points</th>
-                <th class="px-6 py-3 text-left text-xs text-gray-400 uppercase">Companies Referred</th>
-                <th class="px-6 py-3 text-left text-xs text-gray-400 uppercase">Weekly Change</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-800">
-              <!-- Team 1 -->
-              <tr class="hover:bg-gray-800/50">
-                <td class="px-6 py-4">
-                  <div class="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center text-yellow-100 font-bold">1</div>
-                </td>
-                <td class="px-6 py-4">
-                  <div class="flex items-center">
-                    <div class="h-10 w-10 rounded-full bg-yellow-600 flex items-center justify-center text-yellow-100 font-bold">AW</div>
-                    <div class="ml-4">
-                      <div class="font-medium">Aqua Warriors</div>
-                      <div class="text-xs text-gray-400">3 members</div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 font-bold">24,500</td>
-                <td class="px-6 py-4">
-                  <div class="flex items-center">
-                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium">12</div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 text-green-400">▲ +1,250 (5.4%)</td>
-              </tr>
-              <!-- Team 2 -->
-              <tr class="hover:bg-gray-800/50">
-                <td class="px-6 py-4">
-                  <div class="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center text-gray-100 font-bold">2</div>
-                </td>
-                <td class="px-6 py-4">
-                  <div class="flex items-center">
-                    <div class="h-10 w-10 rounded-full bg-gray-500 flex items-center justify-center text-gray-100 font-bold">TW</div>
-                    <div class="ml-4">
-                      <div class="font-medium">Tech Wizards</div>
-                      <div class="text-xs text-gray-400">5 members</div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 font-bold">21,300</td>
-                <td class="px-6 py-4">
-                  <div class="flex items-center">
-                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium">9</div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 text-green-400">▲ +980 (4.8%)</td>
-              </tr>
-              <!-- Team 3 -->
-              <tr class="hover:bg-gray-800/50">
-                <td class="px-6 py-4">
-                  <div class="w-8 h-8 rounded-full bg-amber-700 flex items-center justify-center text-amber-100 font-bold">3</div>
-                </td>
-                <td class="px-6 py-4">
-                  <div class="flex items-center">
-                    <div class="h-10 w-10 rounded-full bg-amber-600 flex items-center justify-center text-amber-100 font-bold">DS</div>
-                    <div class="ml-4">
-                      <div class="font-medium">Digital Sharks</div>
-                      <div class="text-xs text-gray-400">4 members</div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 font-bold">19,750</td>
-                <td class="px-6 py-4">
-                  <div class="flex items-center">
-                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium">7</div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 text-green-400">▲ +1,120 (6.0%)</td>
-              </tr>
-              <!-- Team 4 -->
-              <tr class="hover:bg-gray-800/50">
-                <td class="px-6 py-4">
-                  <div class="w-8 h-8 rounded-full flex items-center justify-center text-gray-100 font-bold">4</div>
-                </td>
-                <td class="px-6 py-4">
-                  <div class="flex items-center">
-                    <div class="h-10 w-10 rounded-full bg-blue-500 flex items-center justify-center text-blue-100 font-bold">NW</div>
-                    <div class="ml-4">
-                      <div class="font-medium">Neon Wolves</div>
-                      <div class="text-xs text-gray-400">3 members</div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 font-bold">18,200</td>
-                <td class="px-6 py-4">
-                  <div class="flex items-center">
-                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium">6</div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 text-green-400">▲ +850 (4.9%)</td>
-              </tr>
-              <!-- Team 5 -->
-              <tr class="hover:bg-gray-800/50">
-                <td class="px-6 py-4">
-                  <div class="w-8 h-8 rounded-full flex items-center justify-center text-gray-100 font-bold">5</div>
-                </td>
-                <td class="px-6 py-4">
-                  <div class="flex items-center">
-                    <div class="h-10 w-10 rounded-full bg-purple-500 flex items-center justify-center text-purple-100 font-bold">QP</div>
-                    <div class="ml-4">
-                      <div class="font-medium">Quantum Pioneers</div>
-                      <div class="text-xs text-gray-400">6 members</div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 font-bold">16,800</td>
-                <td class="px-6 py-4">
-                  <div class="flex items-center">
-                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium">5</div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 text-green-400">▲ +720 (4.5%)</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </main>
+        // Set default time range
+        const defaultTimeRange = 'week';
+        
+        // Initialize the leaderboard and stats with default time range
+        updateLeaderboard(defaultTimeRange);
+        updateStatsCards(defaultTimeRange);
+        
+        // Set up time filter event listener
+        const timeFilter = document.getElementById('timeFilter');
+        if (timeFilter) {
+          timeFilter.addEventListener('change', function() {
+            const selectedRange = this.value;
+            updateLeaderboard(selectedRange);
+            updateStatsCards(selectedRange);
+          });
+        }
 
-  <script>
-    // Mobile menu toggle
-    const menuBtn = document.getElementById('menuBtn');
-    const sidebar = document.getElementById('sidebar');
-    const mainContent = document.getElementById('mainContent');
-    const closeSidebar = document.getElementById('closeSidebar');
+        // Mobile menu toggle
+        const menuBtn = document.getElementById("menuBtn");
+        const closeSidebar = document.getElementById("closeSidebar");
+        const sidebar = document.getElementById("sidebar");
+        const mainContent = document.getElementById("mainContent");
 
-    menuBtn?.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-      mainContent.classList.toggle('active');
-    });
+        menuBtn?.addEventListener("click", () => {
+          sidebar.classList.toggle("active");
+          mainContent.classList.toggle("active");
+        });
 
-    closeSidebar?.addEventListener('click', () => {
-      sidebar.classList.remove('active');
-      mainContent.classList.remove('active');
-    });
-  </script>
-</body>
+        closeSidebar?.addEventListener("click", () => {
+          sidebar.classList.remove("active");
+          mainContent.classList.remove("active");
+        });
+
+        // Handle time filter change
+        timeFilter?.addEventListener("change", function (e) {
+          const filterValue = e.target.value.toLowerCase();
+          updateLeaderboard(filterValue);
+          updateStatsCards(filterValue);
+        });
+      });
+
+      // Update leaderboard based on selected time filter
+      async function updateLeaderboard(timeRange) {
+        try {
+          // Show loading state
+          const leaderboardBody = document.querySelector("#leaderboardTable tbody");
+          if (leaderboardBody) {
+            leaderboardBody.innerHTML = '<tr><td colspan="5" class="text-center py-4">Loading...</td></tr>';
+          }
+          
+          // Ensure timeRange is valid
+          if (!['week', 'last-week', 'month'].includes(timeRange)) {
+            timeRange = 'week';
+          }
+
+          // Get leaderboard data based on time range
+          const response = await fetchLeaderboardData(timeRange);
+
+          if (response && response.success) {
+            renderLeaderboard(response.data);
+          } else {
+            throw new Error("Failed to load leaderboard data");
+          }
+        } catch (error) {
+          console.error("Error updating leaderboard:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Failed to load leaderboard data. Please try again later.",
+            confirmButtonColor: "#2563eb",
+          });
+        }
+      }
+
+      // Fetch leaderboard data (simulated - replace with actual API call)
+      async function fetchLeaderboardData(timeRange) {
+        // Simulate API call
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            // This is mock data - replace with actual API call
+            const mockData = generateMockLeaderboardData(timeRange);
+            resolve({
+              success: true,
+              data: mockData,
+            });
+          }, 500);
+        });
+      }
+
+      // Generate mock leaderboard data based on time range
+      function generateMockLeaderboardData(timeRange) {
+        const teams = [
+          {
+            id: 1,
+            name: "Aqua Warriors",
+            members: 3,
+            points: 24500,
+            companiesReferred: 12,
+            weeklyChange: 5.4,
+          },
+          {
+            id: 2,
+            name: "Tech Wizards",
+            members: 5,
+            points: 21300,
+            companiesReferred: 9,
+            weeklyChange: 4.8,
+          },
+          {
+            id: 3,
+            name: "Digital Sharks",
+            members: 4,
+            points: 19750,
+            companiesReferred: 7,
+            weeklyChange: 6.0,
+          },
+          {
+            id: 4,
+            name: "Water Masters",
+            members: 6,
+            points: 18400,
+            companiesReferred: 8,
+            weeklyChange: 3.2,
+          },
+          {
+            id: 5,
+            name: "Eco Warriors",
+            members: 3,
+            points: 17250,
+            companiesReferred: 6,
+            weeklyChange: 2.8,
+          },
+        ];
+
+        // Adjust points based on time range
+        return teams
+          .map((team) => {
+            let points = team.points;
+            let companies = team.companiesReferred;
+            let change = team.weeklyChange;
+
+            if (timeRange === "month") {
+              // For monthly view, multiply by 4 (assuming 4 weeks in a month)
+              points = Math.round(points * 4);
+              companies = Math.round(companies * 4);
+              // Slightly randomize monthly change between 80-120% of weekly change
+              change =
+                Math.round(
+                  team.weeklyChange * 4 * (0.8 + Math.random() * 0.4) * 10
+                ) / 10;
+            } else if (timeRange === "last-week") {
+              // For last week, slightly adjust the numbers
+              points = Math.round(points * (0.8 + Math.random() * 0.4));
+              companies = Math.round(companies * (0.8 + Math.random() * 0.4));
+              change =
+                Math.round(
+                  team.weeklyChange * (0.8 + Math.random() * 0.4) * 10
+                ) / 10;
+            }
+
+            return {
+              ...team,
+              points,
+              companiesReferred: companies,
+              weeklyChange: change,
+            };
+          })
+          .sort((a, b) => b.points - a.points);
+      }
+
+      // Update stats cards based on time range
+      function updateStatsCards(timeRange) {
+        const stats = {
+          'week': {
+            totalTeams: 1248,
+            activeTeams: 843,
+            totalPoints: '2.4M',
+            avgTeamSize: 4.2,
+            teamGrowth: 12.5,
+            activeGrowth: 8.2,
+            pointsGrowth: 15.3
+          },
+          'last-week': {
+            totalTeams: 1120,
+            activeTeams: 765,
+            totalPoints: '2.1M',
+            avgTeamSize: 4.1,
+            teamGrowth: 8.5,
+            activeGrowth: 6.2,
+            pointsGrowth: 12.1
+          },
+          'month': {
+            totalTeams: 4892,
+            activeTeams: 3450,
+            totalPoints: '9.8M',
+            avgTeamSize: 4.3,
+            teamGrowth: 14.2,
+            activeGrowth: 12.8,
+            pointsGrowth: 18.5
+          }
+        };
+
+        const currentStats = stats[timeRange] || stats['week'];
+        
+        // Update the stats cards
+        document.getElementById('totalTeams').textContent = currentStats.totalTeams.toLocaleString();
+        document.getElementById('activeTeams').textContent = currentStats.activeTeams.toLocaleString();
+        document.getElementById('totalPoints').textContent = currentStats.totalPoints;
+        document.getElementById('avgTeamSize').textContent = currentStats.avgTeamSize;
+        
+        // Update growth indicators
+        document.querySelector('#totalTeamsGrowth').textContent = `▲ ${currentStats.teamGrowth}% from ${timeRange === 'month' ? 'last month' : 'last week'}`;
+        document.querySelector('#activeTeamsGrowth').textContent = `▲ ${currentStats.activeGrowth}% from ${timeRange === 'month' ? 'last month' : 'last week'}`;
+        document.querySelector('#totalPointsGrowth').textContent = `▲ ${currentStats.pointsGrowth}% from ${timeRange === 'month' ? 'last month' : 'last week'}`;
+      }
+
+      // Render leaderboard data to the table
+      function renderLeaderboard(teams) {
+        const leaderboardBody = document.querySelector("#leaderboardTable tbody");
+        if (!leaderboardBody) return;
+
+        if (!teams || teams.length === 0) {
+          leaderboardBody.innerHTML = '<tr><td colspan="5" class="text-center py-4">No data available</td></tr>';
+          return;
+        }
+
+        leaderboardBody.innerHTML = teams
+          .map((team, index) => {
+            const isPositiveChange = team.weeklyChange >= 0;
+            const changeIcon = isPositiveChange ? "▲" : "▼";
+            const changeClass = isPositiveChange
+              ? "text-green-400"
+              : "text-red-400";
+            const rankClass =
+              index < 3
+                ? ["bg-yellow-500", "bg-gray-400", "bg-amber-700"][index]
+                : "bg-gray-800";
+            const initials = team.name
+              .split(" ")
+              .map((n) => n[0])
+              .join("")
+              .toUpperCase();
+
+            return `
+          <tr class="hover:bg-gray-800/50">
+            <td class="px-6 py-4">
+              <div class="w-8 h-8 rounded-full ${rankClass} flex items-center justify-center text-white font-bold">${
+              index + 1
+            }</div>
+            </td>
+            <td class="px-6 py-4">
+              <div class="flex items-center">
+                <div class="h-10 w-10 rounded-full ${getRandomColor(
+                  initials
+                )} flex items-center justify-center text-white font-bold">${initials}</div>
+                <div class="ml-4">
+                  <div class="font-medium">${team.name}</div>
+                  <div class="text-xs text-gray-400">${team.members} member${
+              team.members !== 1 ? "s" : ""
+            }</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 font-bold">${team.points.toLocaleString()}</td>
+            <td class="px-6 py-4">
+              <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium">${
+                  team.companiesReferred
+                }</div>
+              </div>
+            </td>
+            <td class="px-6 py-4 ${changeClass}">
+              ${changeIcon} ${Math.abs(team.weeklyChange)}%
+            </td>
+          </tr>
+        `;
+          })
+          .join("");
+      }
+
+      // Helper function to generate consistent colors for team initials
+      function getRandomColor(initials) {
+        const colors = [
+          "bg-blue-600",
+          "bg-green-600",
+          "bg-red-600",
+          "bg-yellow-600",
+          "bg-purple-600",
+          "bg-pink-600",
+          "bg-indigo-600",
+          "bg-teal-600",
+        ];
+        const hash = initials
+          .split("")
+          .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+        return colors[hash % colors.length];
+      }
+    </script>
+  </body>
 </html>
